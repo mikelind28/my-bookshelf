@@ -29,9 +29,8 @@ export default async function searchAuthor(req: Request, res: Response) {
       authorWorksInfo: authorWorksInfo,
     };
 
-    return res.json(response);
-  } catch (error: any) {
+    res.json(response);
+  } catch (error) {
     console.error('searchAuthor error:', error);
-    return res.status(500).json({ message: error?.message ?? String(error) });
   }
 }

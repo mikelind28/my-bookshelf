@@ -164,17 +164,17 @@ export async function workLoader({ params }: LoaderFunctionArgs) {
   return { workInfo, workInfoAuthors, workEditions };
 }
 
-export async function editionLoader({ params }: LoaderFunctionArgs) {
-  const editionKey = params.editionKey;
+// export async function editionLoader({ params }: LoaderFunctionArgs) {
+//   const editionKey = params.editionKey;
 
-  const response = await fetch(
-    `/api/open-library/search/edition/${editionKey}`,
-  );
+//   const response = await fetch(
+//     `/api/open-library/search/edition/${editionKey}`,
+//   );
 
-  const editionInfo = await response.json();
+//   const editionInfo = await response.json();
 
-  return editionInfo;
-}
+//   return editionInfo;
+// }
 
 export async function authorLoader({ params }: LoaderFunctionArgs) {
   const authorKey = params.key;

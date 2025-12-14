@@ -13,13 +13,13 @@ export default async function searchAuthors(req: Request, res: Response) {
         });
     
         if (!response.ok) {
-            throw new Error('could not fetch authors from open library at searchAuthors(). check network tab');
+            throw new Error(`could not fetch authors from open library at searchAuthors(). response status: ${response.status}`);
         }
     
         const authorArray = await response.json();
     
         res.json(authorArray);
-    } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    } catch (error) {
+        console.error(error);
     }
 }

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { EditionType, WorkInfoType } from '../../../types/types';
 
 // GET at /api/open-library/search/work/:key
 // searches openLibrary for a specific work by key,
@@ -6,30 +7,31 @@ import { Request, Response } from 'express';
 export default async function searchWork(req: Request, res: Response) {
   const workKey = req.params.key;
   try {
-    // 1) fetch work info
+    // fetch work info
     const workInfoResponse = await fetch(`https://openlibrary.org/works/${workKey}.json`, {
       headers: { 'Content-Type': 'application/json' },
     });
     if (!workInfoResponse.ok) {
-      throw new Error(`Failed fetching workInfo (${workKey}): ${workInfoResponse.status}`);
+      throw new Error(`Failed fetching workInfoResponse (${workKey}): ${workInfoResponse.status}`);
     }
-    const workInfo = await workInfoResponse.json();
+    const workInfo: WorkInfoType = await workInfoResponse.json();
 
-    // 2) fetch editions
-    const editionsResp = await fetch(`https://openlibrary.org/works/${workKey}/editions.json`, {
+    // fetch work's editions
+    const editionsResponse = await fetch(`https://openlibrary.org/works/${workKey}/editions.json`, {
       headers: { 'Content-Type': 'application/json' },
     });
-    if (!editionsResp.ok) {
-      throw new Error(`Failed fetching editions (${workKey}): ${editionsResp.status}`);
+    if (!editionsResponse.ok) {
+      throw new Error(`Failed fetching editions (${workKey}): ${editionsResponse.status}`);
     }
-    const workEditions = await editionsResp.json();
+    const workEditions = await editionsResponse.json();
 
+    // fetch authors from keys in workInfo — the more general 'workInfo' sometimes returns different authors than the more specific 'workEditions', so i fetch both. 
     const workInfoAuthors = await Promise.all(
-      (workInfo.authors || []).map(async (author: { author: { key: string } }) => {
+      (workInfo.authors ?? []).map(async (author) => {
         try {
           const response = await fetch(`https://openlibrary.org/${author.author.key}.json`);
           if (!response.ok) {
-            console.warn('workInfo author fetch returned non-ok', author);
+            console.warn(`workInfo author fetch returned non-ok with ${response.status}`, author);
             return 'Unknown Author';
           }
           const authorResponse = await response.json();
@@ -41,17 +43,13 @@ export default async function searchWork(req: Request, res: Response) {
       })
     );
 
-    // for every entry in workEditions.entries, check if it has entry.authors. 
-    // if it contains entry.authors and the array is not empty, fetch author info for each author in entry.authors.
-    // return the entire entry (...entry), but replace entry.authors with the array of authorInfo Promises. 
-    // if entry does not contain entry.authors, or if entry.authors is empty, return the entire entry (...entry), but add/replace entry.authors with workInfo.authors.
-
+    // get all unique author keys from workEditions, so that you can fetch more info about each author.
     const allUniqueAuthorKeys = new Set<string>();
 
-    workEditions.entries.forEach((entry: any) => {
+    workEditions.entries.forEach((entry: EditionType) => {
       if (entry.authors) {
-        entry.authors.forEach((author: any) => {
-          const key = author?.key || (author?.author && author.author.key);
+        entry.authors.forEach((author) => {
+          const key = author.key;
           if (key) allUniqueAuthorKeys.add(key);
         });
       }
@@ -76,25 +74,28 @@ export default async function searchWork(req: Request, res: Response) {
         }
     }));
 
+    // put all author info in a map object so that you can easily populate each edition with more author info.
     const uniqueAuthorInfoMap = new Map(
       allUniqueAuthorInfo.map((author) => {
         return [author.key, author]
       })
     )
 
-    const workEditionsWithAuthors = workEditions.entries.map((entry: any) => {
+    const workEditionsWithAuthors = workEditions.entries.map((entry: EditionType) => {
       if (entry.authors && entry.authors.length > 0) {
-        const entryAuthors = entry.authors.map((author: any) => {
+        const entryAuthors = entry.authors.map((author) => {
           if (uniqueAuthorInfoMap.has(author.key)) {
             return uniqueAuthorInfoMap.get(author.key);
           }
         })
 
+        // keep all previous info about the edition entry, but add the newly collected authors' info. 
         return {
           ...entry,
           authors: entryAuthors,
         }
       } else {
+        // if the edition entry does not have any authors, use the authors from workInfo instead.
         return {
           ...entry,
           authors: workInfoAuthors,
@@ -102,19 +103,20 @@ export default async function searchWork(req: Request, res: Response) {
       }
     });
 
+    // for all editions, if the edition entry contains a 'covers' array, convert it to a URL for easier handling later.
     workEditionsWithAuthors.map((entry: any) => {
       entry.covers ? entry.coverUrl = `https://covers.openlibrary.org/b/id/${entry.covers[0]}-L.jpg` : entry.coverUrl = null
     });
 
+    // send the response back to the client in three parts: general workInfo, the workInfo authors, and the work's editions with added author information.
     const response = {
       workInfo: workInfo,
       workInfoAuthors: workInfoAuthors,
       workEditions: workEditionsWithAuthors,
     };
 
-    return res.json(response);
-  } catch (error: any) {
+    res.json(response);
+  } catch (error) {
     console.error('searchWork error:', error);
-    return res.status(500).json({ message: error?.message ?? String(error) });
   }
 }

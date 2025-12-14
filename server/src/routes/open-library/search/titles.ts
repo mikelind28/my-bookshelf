@@ -13,13 +13,13 @@ export default async function searchTitles(req: Request, res: Response) {
         });
     
         if (!response.ok) {
-            throw new Error('could not fetch titles from open library at searchTitles(). check network tab');
+            throw new Error(`could not fetch titles from open library at searchTitles(). response status: ${response.status}`);
         }
     
         const bookArray = await response.json();
     
         res.json(bookArray);
-    } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    } catch (error) {
+        console.error(error);
     }
 }
