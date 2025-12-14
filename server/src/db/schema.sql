@@ -1,0 +1,5 @@
+-- DROP DATABASE
+DROP DATABASE IF EXISTS my_bookshelf_db_2;
+
+-- CREATE DATABASE
+CREATE DATABASE my_bookshelf_db_2;
