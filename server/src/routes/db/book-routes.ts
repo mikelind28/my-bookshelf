@@ -421,7 +421,7 @@ export const editBook = async (req: Request, res: Response) => {
 
     await Promise.all([...removeAuthors, ...addAuthors]);
 
-    return res.status(201).json({message: 'Book updated', book });
+    res.status(201).json({message: 'Book updated', book });
   } catch (error: any) {
     console.error(error);
   }
