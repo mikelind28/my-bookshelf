@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import searchRouter from './search-routes.js';
+import searchRouter from './search/index.js';
 
 const openLibraryRouter = Router();
 

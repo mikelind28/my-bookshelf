@@ -12,7 +12,7 @@ function BookSearchResultItem({ book }: { book: WorkSeachPreview }) {
       to={`/search/books/${book.key.replace("/works/", "")}`}
       className="relative flex gap-2 rounded-sm border-r-30 border-r-orange-800/75 bg-orange-200/90 px-3 py-2 font-semibold text-orange-950"
     >
-      {(!loaded || !book.cover_edition_key) && (
+      {(!loaded || (!book.cover_edition_key && !book.cover_i)) && (
         <FaBook className="size-20 shrink-0 text-orange-800/90" />
       )}
 
@@ -20,6 +20,14 @@ function BookSearchResultItem({ book }: { book: WorkSeachPreview }) {
         <img
           src={`https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-M.jpg`}
           className={`aspect-auto w-20 self-center rounded-sm drop-shadow-sm/50 ${!loaded ? "hidden" : ""}`}
+          onLoad={() => setLoaded(true)}
+        />
+      )}
+
+      {book.cover_i && (
+        <img
+          src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
+          className={`aspect-auto max-h-30 w-15 self-center rounded-xs drop-shadow-sm/50 ${!loaded ? "hidden" : ""}`}
           onLoad={() => setLoaded(true)}
         />
       )}
@@ -48,7 +56,7 @@ export default function BookSearchResultList({
 }) {
   return (
     <>
-      <div className="m-2 flex flex-col gap-1.5 rounded-sm">
+      <div className="m-2 flex flex-col gap-1.5 max-w-125 rounded-sm">
         {searchResults.map((book, index) => (
           <BookSearchResultItem key={index} book={book} />
         ))}

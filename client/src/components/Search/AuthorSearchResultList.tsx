@@ -9,6 +9,7 @@ function AuthorSearchResultItem({ author }: { author: AuthorSeachPreview }) {
   const [imgUrl, setImgUrl] = useState(false);
 
   useEffect(() => {
+    // TODO: handle this on the server instead
     async function fetchUrl() {
       const url = `https://covers.openlibrary.org/a/olid/${author.key}-L.jpg?default=false`;
 

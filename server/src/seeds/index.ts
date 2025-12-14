@@ -37,7 +37,6 @@ async function seedPublisher() {
 
 const seedAll = async (): Promise<void> => {
   try {
-    
     await sequelize.sync({ force: true });
     console.log('\n----- DATABASE SYNCED -----\n');
     

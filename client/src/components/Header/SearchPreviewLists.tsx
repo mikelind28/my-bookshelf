@@ -17,6 +17,9 @@ import {
 } from "../../types/types";
 import { SetSearchTermContext } from "./Header";
 
+
+// TODO: put these into separate files in the Search folder.
+
 function SearchBookPreviewItem({ book }: { book: WorkSeachPreview }) {
   const [loaded, setLoaded] = useState(false);
   const setSearchTerm = useContext(SetSearchTermContext);
@@ -109,6 +112,7 @@ function SearchAuthorPreviewItem({ author }: { author: AuthorSeachPreview }) {
 
   const setSearchTerm = useContext(SetSearchTermContext);
 
+  // TODO: handle this on the server instead
   useEffect(() => {
     async function fetchUrl() {
       const url = `https://covers.openlibrary.org/a/olid/${author.key}-L.jpg?default=false`;
