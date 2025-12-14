@@ -1,10 +1,8 @@
-import express from 'express';
+import { Request, Response, Router } from 'express';
 import { Author, Book } from "../../models/index.js";
-import { Request, Response } from 'express';
-
-const authorRouter = express.Router();
 
 // GET /api/db/authors
+// gets all authors from the database
 export const getAllAuthors = async (_req: Request, res: Response) => {
   try {
     const authors = await Author.findAll({
@@ -15,13 +13,12 @@ export const getAllAuthors = async (_req: Request, res: Response) => {
     
     res.json(authors);
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
   }
 };
 
-authorRouter.get('/', getAllAuthors);
-
 // GET /api/db/authors/owned
+// gets all owned authors from the database
 export const getOwnedAuthors = async (req: Request, res: Response) => {
   try {
     if (req.query.read === 'read') {
@@ -72,15 +69,13 @@ export const getOwnedAuthors = async (req: Request, res: Response) => {
       
       res.json({ authorCount: count, rows: rows });
     }
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  } catch (error) {
+    console.error(error);
   }
 };
 
-authorRouter.get('/owned', getOwnedAuthors);
-
-
 // GET /api/db/authors/wish-list
+// gets all unowned authors from the database
 export const getWishListAuthors = async (req: Request, res: Response) => {
   try {
     if (req.query.read === 'read') {
@@ -131,15 +126,13 @@ export const getWishListAuthors = async (req: Request, res: Response) => {
       
       res.json({ authorCount: count, rows: rows });
     }
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  } catch (error) {
+    console.error(error);
   }
 };
 
-authorRouter.get('/wish-list', getWishListAuthors);
-
-
 // POST /api/db/authors
+// creates a new author from an openLibrary author record
 export const addNewAuthor = async (req: Request, res: Response) => {
   const request = req.body;
 
@@ -157,16 +150,13 @@ export const addNewAuthor = async (req: Request, res: Response) => {
     });
 
     res.status(201).json({message: 'Author created', author });
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
-    res.status(500).json({ message: error.message });
   }
 };
 
-authorRouter.post('/', addNewAuthor);
-
-
-// POST at '/api/db/authors/new' adds a new author to the database
+// POST at '/api/db/authors/new' 
+// adds a brand new, user-defined author to the database
 export const createNewAuthor = async (req: Request, res: Response) => {
   const request = req.body;
 
@@ -207,16 +197,13 @@ export const createNewAuthor = async (req: Request, res: Response) => {
       res.status(201).json(author);
     }
 
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
-    res.status(500).json({ message: error.message });
   }
 };
 
-authorRouter.post('/new', createNewAuthor);
-
-
-// GET '/api/db/authors/:key' retrieves a single author from the database, as well as all books, for editing a author
+// GET '/api/db/authors/:key' 
+// retrieves a single author from the database, as well as all books, for editing a author
 export const getAuthorAndAllBooks = async (req: Request, res: Response) => {
   const key = req.params.key;
 
@@ -238,7 +225,7 @@ export const getAuthorAndAllBooks = async (req: Request, res: Response) => {
     }
 
     if (!allBooksResponse) {
-      throw new Error(`could not all books`);
+      throw new Error(`could not fetch all books`);
     }
     
     const allBooks = allBooksResponse.map((book) => {
@@ -246,15 +233,13 @@ export const getAuthorAndAllBooks = async (req: Request, res: Response) => {
     })
 
     res.json({ author: authorResponse.dataValues, allBooks: allBooks });
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  } catch (error) {
+    console.error(error);
   }
 };
 
-authorRouter.get('/:key', getAuthorAndAllBooks);
-
-
-// PUT at '/api/db/authors' updates an existing author in the database
+// PUT at '/api/db/authors' 
+// updates an existing author in the database
 export const editAuthor = async (req: Request, res: Response) => {
   const request = req.body;
 
@@ -273,7 +258,7 @@ export const editAuthor = async (req: Request, res: Response) => {
     })
 
     if (!author) {
-      return res.status(404).json({ message: "Author not found" });
+      throw new Error('author not found from editAuthor()');
     }
 
     await author.update(
@@ -296,20 +281,14 @@ export const editAuthor = async (req: Request, res: Response) => {
 
     await Promise.all([...removeBooks, ...addBooks]);
 
-    return res.status(201).json({message: 'Author updated', author });
-  } catch (error: any) {
+    res.status(201).json({message: 'Author updated', author });
+  } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: error.message });
   }
 };
 
-authorRouter.put('/', editAuthor);
-
-
-export default authorRouter;
-
-
-// GET '/api/db/authors/:key/delete' retrieves a single author from the database
+// GET '/api/db/authors/:key/delete' 
+// retrieves a single author from the database
 export const getAuthorByKey = async (req: Request, res: Response) => {
   const key = req.params.key;
 
@@ -322,14 +301,12 @@ export const getAuthorByKey = async (req: Request, res: Response) => {
 
     res.json(authorResponse);
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
   }
 };
 
-authorRouter.get('/:key/delete', getAuthorByKey);
-
-
-// DELETE '/api/db/authors/:key' deletes a single author from the database
+// DELETE '/api/db/authors/:key' 
+// deletes a single author from the database
 export const deleteAuthor = async (req: Request, res: Response) => {
   const key = req.params.key;
 
@@ -346,9 +323,22 @@ export const deleteAuthor = async (req: Request, res: Response) => {
     }
 
     res.json(authorResponse);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  } catch (error) {
+    console.error(error);
   }
 };
 
+
+const authorRouter = Router();
+
+authorRouter.get('/', getAllAuthors);
+authorRouter.post('/', addNewAuthor);
+authorRouter.put('/', editAuthor);
+authorRouter.get('/:key', getAuthorAndAllBooks);
 authorRouter.delete('/:key', deleteAuthor);
+authorRouter.get('/:key/delete', getAuthorByKey);
+authorRouter.post('/new', createNewAuthor);
+authorRouter.get('/owned', getOwnedAuthors);
+authorRouter.get('/wish-list', getWishListAuthors);
+
+export default authorRouter;

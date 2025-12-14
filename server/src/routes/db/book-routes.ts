@@ -1,10 +1,8 @@
-import express from 'express';
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { Author, Book, Publisher } from "../../models/index.js";
 
-const bookRouter = express.Router();
-
 // GET /api/db/books
+// gets all books from the database
 export const getAllBooks = async (_req: Request, res: Response) => {
   try {
     const books = await Book.findAll({
@@ -14,15 +12,13 @@ export const getAllBooks = async (_req: Request, res: Response) => {
     });
     
     res.json(books);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  } catch (error) {
+    console.error(error);
   }
 };
 
-bookRouter.get('/', getAllBooks);
-
-
-// GET at '/api/db/books/owned' retrieves all owned books from the database
+// GET at '/api/db/books/owned' 
+// retrieves all owned books from the database
 export const getOwnedBooks = async (req: Request, res: Response) => {
   try {
     if (req.query.read === 'read') {
@@ -39,8 +35,8 @@ export const getOwnedBooks = async (req: Request, res: Response) => {
           ['title', 'ASC'],
         ],
       });
-
       res.json({ bookCount: count, rows: rows });
+
     } else if (req.query.read === 'not-read') {
       const { count, rows } = await Book.findAndCountAll({
         where: {
@@ -55,8 +51,8 @@ export const getOwnedBooks = async (req: Request, res: Response) => {
           ['title', 'ASC'],
         ],
       });
-      
       res.json({ bookCount: count, rows: rows });
+
     } else {
       const { count, rows } = await Book.findAndCountAll({
         where: {
@@ -70,17 +66,16 @@ export const getOwnedBooks = async (req: Request, res: Response) => {
           ['title', 'ASC'],
         ],
       });
-      
       res.json({ bookCount: count, rows: rows });
+
     }
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  } catch (error) {
+    console.error(error);
   }
 };
 
-bookRouter.get('/owned', getOwnedBooks);
-
-// GET at '/api/db/books/wish-list' retrieves all owned books from the database
+// GET at '/api/db/books/wish-list' 
+// retrieves all unowned books from the database
 export const getWishListBooks = async (req: Request, res: Response) => {
   try {
     if (req.query.read === 'read') {
@@ -97,8 +92,8 @@ export const getWishListBooks = async (req: Request, res: Response) => {
           ['title', 'ASC'],
         ],
       });
-
       res.json({ bookCount: count, rows: rows });
+
     } else if (req.query.read === 'not-read') {
       const { count, rows } = await Book.findAndCountAll({
         where: {
@@ -113,8 +108,8 @@ export const getWishListBooks = async (req: Request, res: Response) => {
           ['title', 'ASC'],
         ],
       });
-      
       res.json({ bookCount: count, rows: rows });
+
     } else {
       const { count, rows } = await Book.findAndCountAll({
         where: {
@@ -128,18 +123,16 @@ export const getWishListBooks = async (req: Request, res: Response) => {
           ['title', 'ASC'],
         ],
       });
-      
       res.json({ bookCount: count, rows: rows });
+
     }
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  } catch (error) {
+    console.error(error);
   }
 };
 
-bookRouter.get('/wish-list', getWishListBooks);
-
-
-// GET '/api/db/books/:key' retrieves a single book from the database, as well as all authors, for editing a book
+// GET '/api/db/books/:key' 
+// retrieves a single book from the database, as well as all authors, for editing a book
 export const getBookAndAllAuthors = async (req: Request, res: Response) => {
   const key = req.params.key;
 
@@ -161,7 +154,7 @@ export const getBookAndAllAuthors = async (req: Request, res: Response) => {
     }
 
     if (!allAuthorsResponse) {
-      throw new Error(`could not all authors`);
+      throw new Error(`could not fetch all authors`);
     }
     
     const allAuthors = allAuthorsResponse.map((author) => {
@@ -170,14 +163,12 @@ export const getBookAndAllAuthors = async (req: Request, res: Response) => {
 
     res.json({ book: bookResponse.dataValues, allAuthors: allAuthors });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
   }
 };
 
-bookRouter.get('/:key', getBookAndAllAuthors);
-
-
-// GET '/api/db/books/:key/delete' retrieves a single book from the database
+// GET '/api/db/books/:key/delete' 
+// retrieves a single book from the database, to display its details before deleting
 export const getBookByKey = async (req: Request, res: Response) => {
   const key = req.params.key;
 
@@ -195,14 +186,12 @@ export const getBookByKey = async (req: Request, res: Response) => {
 
     res.json(bookResponse);
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
   }
 };
 
-bookRouter.get('/:key/delete', getBookByKey);
-
-
-// DELETE '/api/db/books/:key' deletes a single book from the database
+// DELETE '/api/db/books/:key' 
+// deletes a single book from the database
 export const deleteBook = async (req: Request, res: Response) => {
   const key = req.params.key;
 
@@ -220,12 +209,9 @@ export const deleteBook = async (req: Request, res: Response) => {
 
     res.json(bookResponse);
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
   }
 };
-
-bookRouter.delete('/:key', deleteBook);
-
 
 // finds further author information from openLibrary, for addNewBook function below
 export const findAuthor = async (authorKey: string) => {
@@ -237,7 +223,7 @@ export const findAuthor = async (authorKey: string) => {
       });
   
       if (!response.ok) {
-          throw new Error('could not fetch author from open library at findAuthor(). check network tab');
+          throw new Error(`could not fetch author from open library at findAuthor(). response status: ${response.status}`);
       }
   
       const author = await response.json();
@@ -257,13 +243,14 @@ export const findAuthor = async (authorKey: string) => {
         birth_date: author.birth_date ?? undefined,
         death_date: author.death_date ?? undefined,
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('error from findAuthor():', error);
       return;
     }
 }
 
-// POST at '/api/db/books' adds a new book to the database
+// POST at '/api/db/books' 
+// adds a new book (from open library) to the database 
 export const addNewBook = async (req: Request, res: Response) => {
   const request = req.body;
 
@@ -324,16 +311,13 @@ export const addNewBook = async (req: Request, res: Response) => {
     await book[0].addPublishers(publishers);
 
     res.status(201).json({message: 'Book created', book });
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
-    res.status(500).json({ message: error.message });
   }
 };
 
-bookRouter.post('/', addNewBook);
-
-
-// POST at '/api/db/books/new' adds a new book to the database
+// POST at '/api/db/books/new' 
+// adds a brand new, user-defined book to the database
 export const createNewBook = async (req: Request, res: Response) => {
   const request = req.body;
 
@@ -382,14 +366,11 @@ export const createNewBook = async (req: Request, res: Response) => {
     res.status(201).json(book);
   } catch (error: any) {
     console.error(error);
-    res.status(500).json({ message: error.message });
   }
 };
 
-bookRouter.post('/new', createNewBook);
-
-
-// PUT at '/api/db/books' updates an existing book in the database
+// PUT at '/api/db/books' 
+// updates an existing book in the database
 export const editBook = async (req: Request, res: Response) => {
   const request = req.body;
 
@@ -413,7 +394,7 @@ export const editBook = async (req: Request, res: Response) => {
     })
 
     if (!book) {
-      return res.status(404).json({ message: "Book not found" });
+      throw new Error('book not found from editBook()');
     }
 
     await book.update(
@@ -443,11 +424,20 @@ export const editBook = async (req: Request, res: Response) => {
     return res.status(201).json({message: 'Book updated', book });
   } catch (error: any) {
     console.error(error);
-    return res.status(500).json({ message: error.message });
   }
 };
 
-bookRouter.put('/', editBook);
 
+const bookRouter = Router();
+
+bookRouter.get('/', getAllBooks);
+bookRouter.post('/', addNewBook);
+bookRouter.put('/', editBook);
+bookRouter.get('/:key', getBookAndAllAuthors);
+bookRouter.delete('/:key', deleteBook);
+bookRouter.get('/:key/delete', getBookByKey);
+bookRouter.post('/new', createNewBook);
+bookRouter.get('/owned', getOwnedBooks);
+bookRouter.get('/wish-list', getWishListBooks);
 
 export default bookRouter;
