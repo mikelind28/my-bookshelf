@@ -334,11 +334,11 @@ const authorRouter = Router();
 authorRouter.get('/', getAllAuthors);
 authorRouter.post('/', addNewAuthor);
 authorRouter.put('/', editAuthor);
-authorRouter.get('/:key', getAuthorAndAllBooks);
-authorRouter.delete('/:key', deleteAuthor);
-authorRouter.get('/:key/delete', getAuthorByKey);
 authorRouter.post('/new', createNewAuthor);
 authorRouter.get('/owned', getOwnedAuthors);
 authorRouter.get('/wish-list', getWishListAuthors);
+authorRouter.get('/:key', getAuthorAndAllBooks);
+authorRouter.delete('/:key', deleteAuthor);
+authorRouter.get('/:key/delete', getAuthorByKey);
 
 export default authorRouter;

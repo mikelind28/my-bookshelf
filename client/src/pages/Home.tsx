@@ -18,7 +18,7 @@ export function Header2({
   return (
     <Link
       to={pathName}
-      className="group max-w-160 rounded-t-md hover:bg-amber-950"
+      className="group rounded-t-md hover:bg-amber-950"
     >
       <div className="gradient-underline flex items-center gap-2 p-1 pl-2">
         <h2 className="text-2xl font-semibold text-orange-400">

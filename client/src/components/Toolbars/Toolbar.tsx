@@ -53,11 +53,6 @@ function PopoverButton({
   );
 }
 
-// type ToolBarType = {
-//     searchTerm: string;
-//     setSearchTerm: Dispatch<SetStateAction<string>>;
-// }
-
 // TODO: add sort options: 'title' or 'date added'
 
 export default function Toolbar() {

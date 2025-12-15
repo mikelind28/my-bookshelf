@@ -27,41 +27,41 @@ import WishListOutlet from "./pages/WishListOutlet.tsx";
 
 // route loaders.
 import {
-  homeLoader,
-  redirectMyShelf,
-  fetchOwnedBooks,
-  fetchBookAndAllAuthors,
-  fetchOwnedAuthors,
-  redirectWishList,
-  fetchWishListBooks,
-  fetchWishListAuthors,
-  fetchAuthorAndAllBooks,
-  getBookByKey,
-  getAuthorByKey,
   fetchAllAuthors,
   fetchAllBooks,
+  fetchAuthorAndAllBooks,
+  fetchBookAndAllAuthors,
+  fetchOwnedAuthors,
+  fetchOwnedBooks,
+  fetchWishListAuthors,
+  fetchWishListBooks,
+  getAuthorByKey,
+  getBookByKey,
+  homeLoader,
+  redirectMyShelf,
+  redirectWishList,
 } from "./loaders/db-loaders.ts";
 
 import {
-  redirectSearch,
-  bookSearchLoader,
-  workLoader,
-  authorSearchLoader,
-  authorLoader,
-  isbnSearchLoader,
   allSearchLoader,
+  authorLoader,
+  authorSearchLoader,
+  bookSearchLoader,
+  isbnSearchLoader,
+  redirectSearch,
+  workLoader,
 } from "./loaders/open-lib-loaders.ts";
 
 // route actions.
 import {
-  addNewBook,
-  editBookAction,
   addNewAuthor,
-  editAuthorAction,
-  deleteBook,
-  deleteAuthor,
-  createNewBook,
+  addNewBook,
   createNewAuthor,
+  createNewBook,
+  deleteAuthor,
+  deleteBook,
+  editAuthorAction,
+  editBookAction,
 } from "./actions/db-actions.ts";
 
 import {

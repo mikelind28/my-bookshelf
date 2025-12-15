@@ -18,7 +18,6 @@ export class Author extends Model<
 
   declare addBook: BelongsToManyAddAssociationMixin<Book, string>;
   declare addBooks: BelongsToManyAddAssociationsMixin<Book, string>;
-
   declare removeBook: BelongsToManyRemoveAssociationMixin<Book, string>;
 };
 

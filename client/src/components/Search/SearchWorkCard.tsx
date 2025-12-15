@@ -75,26 +75,17 @@ function WorksEditionCard({ edition }: { edition: OpenLibEditionType }) {
           )}
 
           <div className="leading-5">
-            {edition.isbn_10 && (
+            {edition.isbn_10 && 
               <p className="">
-                ISBN-10:
-                {` ${edition.isbn_10[0].toString().substring(0, 8)}-${edition.isbn_10[0].toString().substring(8, 9)}`}
+                ISBN-10: {edition.isbn_10[0]}
               </p>
-            )}
+            }
 
             {edition.isbn_13 &&
-            (edition.isbn_13[0].includes("-") ||
-              edition.isbn_13[0].includes("–") ||
-              edition.isbn_13[0].includes("—")) ? (
-              <p>ISBN-13: {edition.isbn_13[0]}</p>
-            ) : (
-              edition.isbn_13 && (
-                <p className="">
-                  ISBN-13:
-                  {` ${edition.isbn_13[0].toString().substring(0, 3)}-${edition.isbn_13[0].toString().substring(3, 4)}-${edition.isbn_13[0].toString().substring(4, 8)}-${edition.isbn_13[0].toString().substring(8, 12)}-${edition.isbn_13[0].toString().substring(12)}`}
-                </p>
-              )
-            )}
+              <p>
+                ISBN-13: {edition.isbn_13[0]}
+              </p>
+            }
           </div>
 
           <p>{edition.key}</p>

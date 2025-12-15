@@ -107,20 +107,26 @@ export default function SearchAuthorCard() {
             />
           )}
 
-          <div className="flex flex-col">
-            <h2 className="text-3xl font-semibold text-orange-300 text-shadow-md/75">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-2xl leading-7 font-semibold text-amber-400 text-shadow-md/75">
               {authorInfo.name}
             </h2>
 
             {authorInfo.birth_date && (
-              <p className="text-xl text-orange-500 text-shadow-xs/100">
-                Born: {authorInfo.birth_date}
+              <p className="leading-5 text-orange-400 text-shadow-sm/50">
+                Born:
+                <span className="text-orange-300">
+                  {` ${authorInfo.birth_date}`}  
+                </span> 
               </p>
             )}
 
             {authorInfo.death_date && (
-              <p className="text-xl text-orange-500 text-shadow-xs/100">
-                Died: {authorInfo.death_date}
+              <p className="leading-5 text-orange-400 text-shadow-sm/50">
+                Died:
+                <span className="text-orange-300">
+                  {` ${authorInfo.death_date}`}  
+                </span> 
               </p>
             )}
           </div>
@@ -129,9 +135,16 @@ export default function SearchAuthorCard() {
         {authorInfo.bio && (
           <p
             onClick={() => setDisplayFullText(!displayFullText)}
-            className="mt-3 w-full cursor-pointer rounded-md bg-orange-800/50 px-4 py-3 leading-5 wrap-break-word text-orange-200/95 text-shadow-md/33"
+            className="mt-3 w-full cursor-pointer rounded-md bg-orange-800/50 px-4 py-3 wrap-break-word text-orange-300 text-shadow-sm/33 first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:text-6xl first-letter:font-bold first-line:tracking-widest first-line:uppercase"
           >
-            {authorInfo.bio.value.substring(
+            {typeof authorInfo.bio === 'string'
+            ?
+            authorInfo.bio.substring(
+              0,
+              displayFullText ? authorInfo.bio.length : 275,
+            )
+            :
+            authorInfo.bio.value.substring(
               0,
               displayFullText ? authorInfo.bio.value.length : 275,
             )}
@@ -139,7 +152,15 @@ export default function SearchAuthorCard() {
             <span
               className={`tracking-wider text-orange-400 hover:text-orange-500`}
             >
-              {authorInfo.bio.value.length >= 275
+              {typeof authorInfo.bio === 'string'
+              ?
+              authorInfo.bio.length >= 275
+                ? displayFullText
+                  ? " show less"
+                  : " ...show more"
+                : null
+              :
+              authorInfo.bio.value.length >= 275
                 ? displayFullText
                   ? " show less"
                   : " ...show more"
@@ -152,13 +173,13 @@ export default function SearchAuthorCard() {
           onClick={() => {
             setDialogOpen(true);
           }}
-          className="mt-3 w-full rounded-md bg-amber-700 py-2 text-lg font-semibold shadow-xs/25 text-shadow-xs/50"
+          className="mt-3 w-full rounded-md bg-orange-400 py-2 text-xl text-orange-950 shadow-sm/25 hover:bg-amber-500 hover:text-amber-950 active:bg-amber-700 active:text-darkbrown active:inset-shadow-xs/33"
         >
           Add Author...
         </button>
       </div>
 
-      <p className="font-slight mt-2 text-2xl">Books:</p>
+      <p className="m-2 text-2xl text-amber-500">Books:</p>
 
       <BookSearchResultList searchResults={authorWorksInfo.entries} />
 

@@ -433,11 +433,11 @@ const bookRouter = Router();
 bookRouter.get('/', getAllBooks);
 bookRouter.post('/', addNewBook);
 bookRouter.put('/', editBook);
-bookRouter.get('/:key', getBookAndAllAuthors);
-bookRouter.delete('/:key', deleteBook);
-bookRouter.get('/:key/delete', getBookByKey);
 bookRouter.post('/new', createNewBook);
 bookRouter.get('/owned', getOwnedBooks);
 bookRouter.get('/wish-list', getWishListBooks);
+bookRouter.get('/:key', getBookAndAllAuthors);
+bookRouter.delete('/:key', deleteBook);
+bookRouter.get('/:key/delete', getBookByKey);
 
 export default bookRouter;

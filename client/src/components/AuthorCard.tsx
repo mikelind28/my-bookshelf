@@ -24,6 +24,8 @@ import { BookListCard } from "./Lists/BookList";
 
 
 // TODO: instead of useNavigate(), use redirect() in loader/action function, when possible...
+
+// TODO: add breadcrumbs back to search results?
 export default function AuthorCard() {
   const { rows } = useLoaderData<{ rows: Author[] }>();
 
@@ -147,9 +149,9 @@ export default function AuthorCard() {
                 )}
 
                 <div className="flex grow flex-col gap-1">
-                  <h1 className="text-2xl leading-7 font-semibold text-amber-500">
+                  <h3 className="text-2xl leading-7 font-semibold text-amber-500">
                     {currentAuthor.name}
-                  </h1>
+                  </h3>
 
                   {currentAuthor.birth_date && (
                     <p className="leading-5 text-orange-500 text-shadow-sm/50">
@@ -212,7 +214,7 @@ export default function AuthorCard() {
               </div>
 
               {currentAuthor.bio && (
-                <p className="text-orange-300 first-letter:float-left first-letter:mr-3 first-letter:font-serif first-letter:text-7xl first-letter:font-bold first-line:tracking-widest first-line:uppercase">
+                <p className="text-orange-300 text-shadow-sm/33  rounded-md bg-orange-800/50 px-4 py-3 first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:text-7xl first-letter:font-bold first-line:tracking-widest first-line:uppercase">
                   {currentAuthor.bio}
                 </p>
               )}

@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useFetcher } from "react-router";
+import { useFetcher, useLocation } from "react-router";
 
 import { FaUser } from "react-icons/fa";
 
@@ -31,17 +31,20 @@ export default function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchType, setSearchType] = useState<SearchType>("all");
   const [previewResultsOpen, setPreviewResultsOpen] = useState(true);
-  // const [allSearchResults, setAllSearchResults] = useState();
-  const [bookSearchResults, setBookSearchResults] = useState<
-    WorkSeachPreview[]
-  >([]);
-  const [authorSearchResults, setAuthorSearchResults] = useState<
-    AuthorSeachPreview[]
-  >([]);
-  const [isbnSearchResult, setIsbnSearchResult] =
-    useState<OpenLibEditionType>();
+  const [bookSearchResults, setBookSearchResults] = useState<WorkSeachPreview[]>([]);
+  const [authorSearchResults, setAuthorSearchResults] = useState<AuthorSeachPreview[]>([]);
+  const [isbnSearchResult, setIsbnSearchResult] = useState<OpenLibEditionType>();
+
+  const location = useLocation();
 
   let previewSearchFetcher = useFetcher({ key: "preview-search-fetcher" });
+
+  // clear the search results when the location changes.
+  useEffect(() => {
+    setBookSearchResults([]);
+    setAuthorSearchResults([]);
+    setIsbnSearchResult(undefined);
+  }, [location]);
 
   useEffect(() => {
     if (
@@ -82,7 +85,7 @@ export default function Header() {
   }, [previewSearchFetcher]);
 
   return (
-    <header className="relative my-2 flex h-9 w-full max-w-140 items-stretch justify-between gap-2 px-3">
+    <header className="relative my-2 flex h-9 w-full max-w-180 items-stretch justify-between gap-2 px-3">
       <div className="flex h-full items-center rounded-md border border-orange-300/25 bg-amber-700/25 px-2">
         <Logo />
       </div>

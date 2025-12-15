@@ -21,9 +21,7 @@ export class Book extends Model<
 
   declare addAuthor: BelongsToManyAddAssociationMixin<Author, string>;
   declare addAuthors: BelongsToManyAddAssociationsMixin<Author, string>;
-
   declare removeAuthor: BelongsToManyRemoveAssociationMixin<Author, string>;
-
   declare addPublisher: BelongsToManyAddAssociationMixin<Publisher, string>;
   declare addPublishers: BelongsToManyAddAssociationsMixin<Publisher, string>;
 };

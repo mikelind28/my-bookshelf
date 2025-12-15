@@ -33,8 +33,8 @@ function SearchOptions({
 
       <MenuItems
         transition
-        anchor={{ to: "bottom start", offset: -5 }}
-        className="z-50 w-40 origin-top-right rounded-lg border border-orange-400/25 bg-amber-800/98 p-1 text-base/6 text-orange-200 shadow-md/25 transition duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0"
+        anchor={{ to: "bottom start", gap: 8, offset: -5 }}
+        className="z-50 w-40 flex flex-col gap-0.5 origin-top-right rounded-lg border border-orange-400/25 bg-amber-800/98 p-1 text-base/6 text-orange-200 shadow-md/25 transition duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0"
       >
         <MenuItem>
           <button
@@ -42,7 +42,7 @@ function SearchOptions({
               setPlaceholderText("Search...");
               setSearchType("all");
             }}
-            className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-orange-400/33 data-focus:text-orange-100"
+            className={`group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-orange-400/33 data-focus:text-orange-100 ${searchType === 'all' ? 'bg-orange-400/33 font-semibold text-orange-50' : ''}`}
           >
             All
           </button>
@@ -54,7 +54,7 @@ function SearchOptions({
               setPlaceholderText("Books...");
               setSearchType("books");
             }}
-            className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-orange-400/33 data-focus:text-orange-100"
+            className={`group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-orange-400/33 data-focus:text-orange-100 ${searchType === 'books' ? 'bg-orange-400/33 font-semibold text-orange-50' : ''}`}
           >
             Books
           </button>
@@ -66,7 +66,7 @@ function SearchOptions({
               setPlaceholderText("Authors...");
               setSearchType("authors");
             }}
-            className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-orange-400/33 data-focus:text-orange-100"
+            className={`group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-orange-400/33 data-focus:text-orange-100 ${searchType === 'authors' ? 'bg-orange-400/33 font-semibold text-orange-50' : ''}`}
           >
             Authors
           </button>
@@ -78,7 +78,7 @@ function SearchOptions({
               setPlaceholderText("ISBN...");
               setSearchType("isbn");
             }}
-            className="group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-orange-400/33 data-focus:text-orange-100"
+            className={`group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-orange-400/33 data-focus:text-orange-100 ${searchType === 'isbn' ? 'bg-orange-400/33 font-semibold text-orange-50' : ''}`}
           >
             ISBN
           </button>
