@@ -185,21 +185,8 @@ export async function addNewAuthor({ request }: { request: Request }) {
 }
 
 export async function createNewAuthor({ request }: { request: Request }) {
-  // const url = new URL(request.url);
-
-  // let pathName = 'my-shelf';
-
-  // if (url.pathname.includes('/my-shelf')) {
-  //     pathName = 'my-shelf';
-  // }
-
-  // if (url.pathname.includes('/wish-list')) {
-  //     pathName = 'wish-list';
-  // }
-
   const formData = await request.formData();
 
-  // TODO: ADD UUID AUTO CREATE TO AUTHOR MODEL
   const first_name = formData.get("author-first-name");
   const middle_name = formData.get("author-middle-name");
   const last_name = formData.get("author-last-name");

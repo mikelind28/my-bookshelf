@@ -17,22 +17,24 @@ import {
 
 import Logo from "./Logo";
 import SearchBar, { SearchType } from "./SearchBar";
-import {
-  SearchBooksPreviewList,
-  SearchAuthorsPreviewList,
-  SearchIsbnPreviewList,
-} from "./SearchPreviewLists";
+import { SearchBooksPreviewList } from "../Search/SearchBooksPreview";
+import { SearchAuthorsPreviewList } from "../Search/SearchAuthorsPreview";
+import { SearchIsbnPreviewList } from "../Search/SearchIsbnPreview";
 
 export const SetSearchTermContext = createContext<
-  Dispatch<SetStateAction<string>>
->(() => "");
+  {
+    searchTerm: string;
+    searchType: SearchType;
+    setSearchTerm: Dispatch<SetStateAction<string>>
+  }
+>({searchTerm: "", searchType: "all", setSearchTerm: () => ""});
 
 export default function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchType, setSearchType] = useState<SearchType>("all");
   const [previewResultsOpen, setPreviewResultsOpen] = useState(true);
-  const [bookSearchResults, setBookSearchResults] = useState<WorkSeachPreview[]>([]);
-  const [authorSearchResults, setAuthorSearchResults] = useState<AuthorSeachPreview[]>([]);
+  const [bookSearchResults, setBookSearchResults] = useState<WorkSeachPreview[]>();
+  const [authorSearchResults, setAuthorSearchResults] = useState<AuthorSeachPreview[]>();
   const [isbnSearchResult, setIsbnSearchResult] = useState<OpenLibEditionType>();
 
   const location = useLocation();
@@ -41,48 +43,39 @@ export default function Header() {
 
   // clear the search results when the location changes.
   useEffect(() => {
-    setBookSearchResults([]);
-    setAuthorSearchResults([]);
+    setBookSearchResults(undefined);
+    setAuthorSearchResults(undefined);
     setIsbnSearchResult(undefined);
   }, [location]);
 
   useEffect(() => {
-    if (
-      bookSearchResults.length > 0 ||
-      authorSearchResults.length > 0 ||
-      isbnSearchResult
-    ) {
-      setPreviewResultsOpen(true);
-    } else {
-      setPreviewResultsOpen(false);
-    }
-
-    if (searchTerm === "") {
-      setPreviewResultsOpen(false);
-    } else {
-      setPreviewResultsOpen(true);
-    }
-  }, [bookSearchResults, authorSearchResults, searchTerm]);
-
-  useEffect(() => {
     const fetcherData = previewSearchFetcher.data;
-    if (fetcherData && (searchType === "books" || searchType === "all")) {
-      const bookSearchResults: WorkSeachPreview[] = fetcherData.docs;
-      setBookSearchResults(bookSearchResults);
-    }
 
-    if (fetcherData && searchType === "authors") {
-      const authorSearchResults: AuthorSeachPreview[] = fetcherData.docs;
-      setAuthorSearchResults(authorSearchResults);
-    }
+    if (searchTerm === "" || !fetcherData) {
+      setPreviewResultsOpen(false);
+      setBookSearchResults(undefined);
+      setAuthorSearchResults(undefined);
+      setIsbnSearchResult(undefined);
+    } else {
+      if (searchType === 'books' || searchType === 'all') {
+        const bookSearchResults: WorkSeachPreview[] = fetcherData.docs;
+        setBookSearchResults(bookSearchResults);
+        setPreviewResultsOpen(true);
+      }
 
-    if (fetcherData && searchType === "isbn") {
-      const result: OpenLibEditionType = fetcherData;
+      if (searchType === 'authors') {
+        const authorSearchResults: AuthorSeachPreview[] = fetcherData.docs;
+        setAuthorSearchResults(authorSearchResults);
+        setPreviewResultsOpen(true);
+      }
 
-      console.log("fetcherData:", result);
-      setIsbnSearchResult(result);
+      if (searchType === 'isbn') {
+        const result: OpenLibEditionType = fetcherData;
+        setIsbnSearchResult(result);
+        setPreviewResultsOpen(true);
+      }
     }
-  }, [previewSearchFetcher]);
+  }, [previewSearchFetcher, searchTerm, searchType, bookSearchResults, authorSearchResults, isbnSearchResult]);
 
   return (
     <header className="relative my-2 flex h-9 w-full max-w-180 items-stretch justify-between gap-2 px-3">
@@ -96,12 +89,19 @@ export default function Header() {
           setSearchTerm={setSearchTerm}
           searchType={searchType}
           setSearchType={setSearchType}
+          setIsbnSearchResult={setIsbnSearchResult}
         />
       </div>
 
       <FaUser className="size-9 shrink-0 rounded-md bg-amber-700/80 p-2 text-orange-300" />
 
-      <SetSearchTermContext value={setSearchTerm}>
+      <SetSearchTermContext 
+        value={{
+          searchTerm: searchTerm, 
+          searchType: searchType, 
+          setSearchTerm: setSearchTerm
+        }}
+      >
         {previewResultsOpen && searchType === "all" && (
           <SearchBooksPreviewList
             searchResults={bookSearchResults}

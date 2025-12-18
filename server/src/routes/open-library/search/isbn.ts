@@ -14,6 +14,7 @@ export default async function searchISBN(req: Request, res: Response) {
       });
   
       if (!isbnResponse.ok) {
+          res.status(isbnResponse.status).send(undefined);
           throw new Error(`could not fetch isbn from open library at searchISBNs(). response status: ${isbnResponse.status}`);
       }
   

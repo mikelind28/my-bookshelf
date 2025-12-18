@@ -12,8 +12,6 @@ export async function allSearchLoader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const params = url.searchParams;
 
-  console.log(params.size);
-
   if (params.size === 0) {
     return redirect("/");
   } else {
@@ -48,8 +46,6 @@ export async function allSearchLoader({ request }: LoaderFunctionArgs) {
 export async function bookSearchLoader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const params = url.searchParams;
-
-  console.log(params.size);
 
   if (params.size === 0) {
     return redirect("/");
@@ -89,8 +85,6 @@ export async function authorSearchLoader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const params = url.searchParams;
 
-  console.log(params.size);
-
   if (params.size === 0) {
     return redirect("/");
   } else {
@@ -126,8 +120,6 @@ export async function authorSearchLoader({ request }: LoaderFunctionArgs) {
 
 export async function isbnSearchLoader({ params }: LoaderFunctionArgs) {
   const isbn = params.isbn;
-
-  console.log(isbn);
 
   if (!isbn) {
     return redirect("/");

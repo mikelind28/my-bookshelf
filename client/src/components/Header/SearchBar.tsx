@@ -3,6 +3,7 @@ import { useState, Dispatch, SetStateAction, useRef, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
 import { useFetcher } from "react-router";
+import { OpenLibEditionType } from "../../types/types";
 
 function SearchOptions({
   setPlaceholderText,
@@ -95,6 +96,7 @@ type SearchBarType = {
   setSearchTerm: Dispatch<SetStateAction<string>>;
   searchType: SearchType;
   setSearchType: Dispatch<SetStateAction<SearchType>>;
+  setIsbnSearchResult: Dispatch<SetStateAction<OpenLibEditionType | undefined>>;
 };
 
 export default function SearchBar({
@@ -102,6 +104,7 @@ export default function SearchBar({
   setSearchTerm,
   searchType,
   setSearchType,
+  setIsbnSearchResult
 }: SearchBarType) {
   const [placeholderText, setPlaceholderText] = useState("Search...");
 
@@ -140,13 +143,12 @@ export default function SearchBar({
 
       if (searchType === "isbn") {
         if (searchTerm.length === 10 || searchTerm.length === 13) {
-          console.log("searchType:", searchType);
-          console.log("searchTerm:", searchTerm);
-
           previewSearchFetcher.submit(formData, {
             method: "post",
             action: "/",
           });
+        } else {
+          setIsbnSearchResult(undefined);
         }
       }
     }
@@ -208,6 +210,8 @@ export default function SearchBar({
               if (searchType === "isbn") {
                 if (input.value.length === 10 || input.value.length === 13) {
                   submitFormData(form, input.value);
+                } else {
+                  setIsbnSearchResult(undefined);
                 }
               }
             }}
