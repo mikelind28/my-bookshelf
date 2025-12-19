@@ -3,7 +3,6 @@ import { useState, Dispatch, SetStateAction, useRef, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
 import { useFetcher } from "react-router";
-import { OpenLibEditionType } from "../../types/types";
 
 function SearchOptions({
   setPlaceholderText,
@@ -96,7 +95,6 @@ type SearchBarType = {
   setSearchTerm: Dispatch<SetStateAction<string>>;
   searchType: SearchType;
   setSearchType: Dispatch<SetStateAction<SearchType>>;
-  setIsbnSearchResult: Dispatch<SetStateAction<OpenLibEditionType | undefined>>;
 };
 
 export default function SearchBar({
@@ -104,7 +102,6 @@ export default function SearchBar({
   setSearchTerm,
   searchType,
   setSearchType,
-  setIsbnSearchResult
 }: SearchBarType) {
   const [placeholderText, setPlaceholderText] = useState("Search...");
 
@@ -126,43 +123,20 @@ export default function SearchBar({
       formData.set("search-term", searchTerm);
       formData.set("search-type", searchType);
 
-      if (searchType !== "isbn") {
-        if (debounceRef.current) {
-          window.clearTimeout(debounceRef.current);
-        }
-
-        debounceRef.current = window.setTimeout(() => {
-          if (searchTerm !== "") {
-            previewSearchFetcher.submit(formData, {
-              method: "post",
-              action: "/",
-            });
-          }
-        }, 500);
+      if (debounceRef.current) {
+        window.clearTimeout(debounceRef.current);
       }
 
-      if (searchType === "isbn") {
-        if (searchTerm.length === 10 || searchTerm.length === 13) {
+      debounceRef.current = window.setTimeout(() => {
+        if (searchTerm !== "") {
           previewSearchFetcher.submit(formData, {
             method: "post",
             action: "/",
           });
-        } else {
-          setIsbnSearchResult(undefined);
         }
-      }
+      }, 500);
     }
   }, [searchType, searchTerm]);
-
-  function submitFormData(form: HTMLFormElement, currentValue: string) {
-    const formData = new FormData(form);
-
-    // override with the latest input value (safe & avoids setState race)
-    formData.set("search-term", currentValue);
-    formData.set("search-type", searchType);
-
-    previewSearchFetcher.submit(formData, { method: "post", action: "/" });
-  }
 
   return (
     <div className="relative flex h-full w-full grow flex-col">
@@ -189,31 +163,7 @@ export default function SearchBar({
             placeholder={placeholderText}
             value={searchTerm}
             onChange={(e) => {
-              const input = e.currentTarget;
-              const form = input.form!;
-
-              setSearchTerm(input.value);
-
-              // debounce so you're not firing on every keystroke immediately
-              if (searchType !== "isbn") {
-                if (debounceRef.current) {
-                  window.clearTimeout(debounceRef.current);
-                }
-
-                debounceRef.current = window.setTimeout(() => {
-                  if (input.value !== "") {
-                    submitFormData(form, input.value);
-                  }
-                }, 500);
-              }
-
-              if (searchType === "isbn") {
-                if (input.value.length === 10 || input.value.length === 13) {
-                  submitFormData(form, input.value);
-                } else {
-                  setIsbnSearchResult(undefined);
-                }
-              }
+              setSearchTerm(e.currentTarget.value);
             }}
             className="h-full w-full pl-2 text-xl placeholder:text-lg focus:outline-0"
           />

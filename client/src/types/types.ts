@@ -42,6 +42,7 @@ export type AuthorSeachPreview = {
   key: string;
   name: string;
   birth_date?: string;
+  death_date?: string;
   work_count?: number;
 };
 

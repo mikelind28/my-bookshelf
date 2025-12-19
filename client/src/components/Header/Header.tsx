@@ -32,7 +32,7 @@ export const SetSearchTermContext = createContext<
 export default function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchType, setSearchType] = useState<SearchType>("all");
-  const [previewResultsOpen, setPreviewResultsOpen] = useState(true);
+  const [previewResultsOpen, setPreviewResultsOpen] = useState(false);
   const [bookSearchResults, setBookSearchResults] = useState<WorkSeachPreview[]>();
   const [authorSearchResults, setAuthorSearchResults] = useState<AuthorSeachPreview[]>();
   const [isbnSearchResult, setIsbnSearchResult] = useState<OpenLibEditionType>();
@@ -49,7 +49,7 @@ export default function Header() {
   }, [location]);
 
   useEffect(() => {
-    const fetcherData = previewSearchFetcher.data;
+    let fetcherData = previewSearchFetcher.data;
 
     if (searchTerm === "" || !fetcherData) {
       setPreviewResultsOpen(false);
@@ -57,7 +57,13 @@ export default function Header() {
       setAuthorSearchResults(undefined);
       setIsbnSearchResult(undefined);
     } else {
-      if (searchType === 'books' || searchType === 'all') {
+      if (searchType === 'all') {
+        const bookSearchResults: WorkSeachPreview[] = fetcherData.docs;
+        setBookSearchResults(bookSearchResults);
+        setPreviewResultsOpen(true);
+      }
+
+      if (searchType === 'books') {
         const bookSearchResults: WorkSeachPreview[] = fetcherData.docs;
         setBookSearchResults(bookSearchResults);
         setPreviewResultsOpen(true);
@@ -77,6 +83,14 @@ export default function Header() {
     }
   }, [previewSearchFetcher, searchTerm, searchType, bookSearchResults, authorSearchResults, isbnSearchResult]);
 
+  useEffect(() => {
+    previewSearchFetcher.unstable_reset()
+    setPreviewResultsOpen(false);
+    setBookSearchResults(undefined);
+    setAuthorSearchResults(undefined);
+    setIsbnSearchResult(undefined);
+  }, [searchType]);
+
   return (
     <header className="relative my-2 flex h-9 w-full max-w-180 items-stretch justify-between gap-2 px-3">
       <div className="flex h-full items-center rounded-md border border-orange-300/25 bg-amber-700/25 px-2">
@@ -89,7 +103,6 @@ export default function Header() {
           setSearchTerm={setSearchTerm}
           searchType={searchType}
           setSearchType={setSearchType}
-          setIsbnSearchResult={setIsbnSearchResult}
         />
       </div>
 
