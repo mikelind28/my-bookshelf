@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBook } from "react-icons/fa";
-import { IoIosArrowForward } from "react-icons/io";
-import { Link } from "react-router";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Link, useSearchParams } from "react-router";
 import { WorkSeachPreview } from "../../types/types";
 
 function BookSearchResultItem({ book, index }: { book: WorkSeachPreview, index: number }) {
@@ -54,7 +54,7 @@ function BookSearchResultItem({ book, index }: { book: WorkSeachPreview, index: 
         </div>
       </div>
 
-      <span className={`flex items-center w-8 bg-amber-600 border-b border-b-amber-900 group-hover:bg-amber-500 ${index === 0 ? 'rounded-tr-md' : index === 9 ? 'rounded-br-md border-b-0' : ''}`}>
+      <span className={`flex items-center w-8 bg-amber-600 border-b border-b-amber-900 group-hover:bg-amber-500 ${index === 0 ? 'rounded-tr-sm' : index === 9 ? 'rounded-br-sm border-b-0' : ''}`}>
         <IoIosArrowForward className="size-6 shrink-0 text-darkbrown/80" />
       </span>
     </Link>
@@ -66,11 +66,48 @@ export default function BookSearchResultList({
 }: {
   searchResults: WorkSeachPreview[];
 }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [searchParams, setSearchParams] = useSearchParams({ page: currentPage.toString() });
+
+  useEffect(() => {
+    setTotalPages(searchResults.length/10);
+  }, [searchResults]);
+
   return (
-    <div className="m-3 flex flex-col max-w-125 bg-amber-900/95 outline outline-amber-600 divide-y divide-amber-600 drop-shadow-xl/90 rounded-md">
+    <div className="m-3 flex flex-col max-w-125 bg-amber-900/95 outline outline-amber-600 divide-y divide-amber-600 drop-shadow-xl/90 rounded-sm">
       {searchResults.map((book, index) => (
         <BookSearchResultItem key={index} book={book} index={index} />
       ))}
+
+      <div className="flex gap-3 justify-center items-center h-20 w-full max-w-140">
+        <IoIosArrowBack
+          onClick={() => {
+            setCurrentPage(currentPage - 1);
+            setSearchParams((searchParams) => {
+              searchParams.set("page", (currentPage - 1).toString());
+              return searchParams;
+            });
+          }}
+          className="size-8 shrink-0 p-1 bg-orange-200 rounded-md text-orange-950"
+        />
+
+        <p>
+          {`page ${currentPage} of ${totalPages}`}
+        </p>
+
+        <IoIosArrowForward
+          onClick={() => {
+            setCurrentPage(currentPage + 1);
+            setSearchParams((searchParams) => {
+              searchParams.set("page", (currentPage + 1).toString());
+              return searchParams;
+            });
+          }}
+          className="size-8 shrink-0 p-1 bg-orange-200 rounded-md text-orange-950"
+        />
+      </div>
     </div>
   );
 }

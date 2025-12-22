@@ -16,9 +16,10 @@ export async function allSearchLoader({ request }: LoaderFunctionArgs) {
     return redirect("/");
   } else {
     const searchTerm = params.get("q");
+    const page = params.get("page");
 
     try {
-      const response = await fetch(`/api/open-library/search?q=${searchTerm}`, {
+      const response = await fetch(`/api/open-library/search?q=${searchTerm}&page=${page}`, {
         headers: {
           "Content-type": "application/json",
         },

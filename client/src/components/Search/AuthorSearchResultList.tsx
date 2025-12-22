@@ -60,7 +60,7 @@ function AuthorSearchResultItem({ author, index }: { author: AuthorSeachPreview,
         </div>
       </div>
 
-      <span className={`flex items-center w-8 bg-amber-600 border-b border-b-amber-900 group-hover:bg-amber-500 ${index === 0 ? 'rounded-tr-md' : index === 9 ? 'rounded-br-md border-b-0' : ''}`}>
+      <span className={`flex items-center w-8 bg-amber-600 border-b border-b-amber-900 group-hover:bg-amber-500 ${index === 0 ? 'rounded-tr-sm' : index === 9 ? 'rounded-br-sm border-b-0' : ''}`}>
         <IoIosArrowForward className="size-6 shrink-0 text-darkbrown/80" />
       </span>
     </Link>
