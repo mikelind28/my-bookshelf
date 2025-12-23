@@ -3,7 +3,16 @@ import { Request, Response } from 'express';
 // GET at /api/open-library/search/author/:key
 // searches openLibrary for a specific author by key.
 export default async function searchAuthor(req: Request, res: Response) {
+  const pageParam = req.query.page;
+  const page = Number(pageParam);
+
   const authorKey = req.params.key;
+
+  let offset = 0;
+
+  if (Number.isInteger(page) && page > 0) {
+    offset = (page - 1) * 10;
+  }
 
   try {
     const authorResponse = await fetch(`https://openlibrary.org/authors/${authorKey}.json`, {
@@ -16,7 +25,7 @@ export default async function searchAuthor(req: Request, res: Response) {
 
     const authorInfo = await authorResponse.json();
 
-    const authorWorksResponse = await fetch(`https://openlibrary.org/authors/${authorKey}/works.json?limit=10&offset=0`);
+    const authorWorksResponse = await fetch(`https://openlibrary.org/authors/${authorKey}/works.json?limit=10&offset=${offset}`);
 
     if (!authorWorksResponse.ok) {
       throw new Error(`Failed fetching authorWorksResponse (${authorKey}): ${authorWorksResponse.status}`);

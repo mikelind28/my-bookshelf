@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import { FaBook, FaExternalLinkAlt } from "react-icons/fa";
 import { Author, OpenLibEditionType, WorkInfoType } from "../../types/types";
 import AddBookDialog from "./AddBookDialog";
+import PageNavigator from "./PageNavigator";
+import { useSearchParams } from "react-router";
 
 // TODO: link to openLibrary site
 
@@ -113,28 +115,57 @@ function WorksEditionCard({ edition }: { edition: OpenLibEditionType }) {
 }
 
 // SearchWorkCard contains this list of the book's specific editions.
-function WorksEditionsList({ editions }: { editions: OpenLibEditionType[] }) {
+function WorksEditionsList({ 
+  editions, 
+  numberOfEditions 
+}: { 
+  editions: OpenLibEditionType[]; 
+  numberOfEditions: number 
+}) {
+  const [searchParams] = useSearchParams();
+  
+  const [currentPage, setCurrentPage] = useState(
+    searchParams.get("page") 
+    ? parseInt(searchParams.get("page")!) 
+    : 1
+  );
+  const [totalPages, setTotalPages] = useState(Math.ceil(numberOfEditions/10));
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(numberOfEditions/10));
+  }, [editions]);
+  
   return (
-    <ul>
-      {editions
-        .filter((edition) =>
-          edition.languages
-            ? edition.languages[0].key === "/languages/eng"
-            : edition,
-        )
-        .map((edition) => (
-          <WorksEditionCard key={edition.key} edition={edition} />
-        ))}
-    </ul>
+    <div>
+      <ul>
+        {editions
+          .filter((edition) =>
+            edition.languages
+              ? edition.languages[0].key === "/languages/eng"
+              : edition,
+          )
+          .map((edition) => (
+            <WorksEditionCard key={edition.key} edition={edition} />
+          ))}
+      </ul>
+
+      <PageNavigator 
+        currentPage={currentPage} 
+        setCurrentPage={setCurrentPage} 
+        numberOfResults={numberOfEditions} 
+        totalPages={totalPages}        
+      />
+    </div>
   );
 }
 
 // SearchWorkCard shows book info, as well as a list of the book's editions, when a user searches for books from open library and then clicks on one of the list items.
 export default function SearchWorkCard() {
-  const { workInfo, workInfoAuthors, workEditions } = useLoaderData<{
+  const { workInfo, workInfoAuthors, workEditions, numberOfEditions } = useLoaderData<{
     workInfo: WorkInfoType;
     workInfoAuthors: Author[];
     workEditions: OpenLibEditionType[];
+    numberOfEditions: number;
   }>();
 
   const [displayFullText, setDisplayFullText] = useState(false);
@@ -211,7 +242,7 @@ export default function SearchWorkCard() {
 
       <p className="font-slight mt-2 text-2xl">Editions:</p>
 
-      <WorksEditionsList editions={workEditions} />
+      <WorksEditionsList editions={workEditions} numberOfEditions={numberOfEditions} />
     </div>
   );
 }

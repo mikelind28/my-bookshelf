@@ -69,7 +69,13 @@ export default function BookSearchResultList({
   searchResults: WorkSeachPreview[];
   numberOfResults: number;
 }) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams] = useSearchParams();
+
+  const [currentPage, setCurrentPage] = useState(
+    searchParams.get("page") 
+    ? parseInt(searchParams.get("page")!) 
+    : 1
+  );
   const [totalPages, setTotalPages] = useState(Math.ceil(numberOfResults/10));
 
   useEffect(() => {

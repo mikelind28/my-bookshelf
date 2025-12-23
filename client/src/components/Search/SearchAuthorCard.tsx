@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { IoPerson } from "react-icons/io5";
-import { Link, useLoaderData } from "react-router";
+import { Link, useLoaderData, useSearchParams } from "react-router";
 import { AuthorWorkPreview } from "../../types/types";
 import { FaBook } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
 import AddAuthorDialog from "./AddAuthorDialog";
+import PageNavigator from "./PageNavigator";
 
 // TODO: link to openLibrary site
 
@@ -49,24 +50,42 @@ function BookSearchResultItem({ book }: { book: AuthorWorkPreview }) {
 
 function BookSearchResultList({
   searchResults,
+  numberOfResults
 }: {
   searchResults: AuthorWorkPreview[];
+  numberOfResults: number;
 }) {
+  const [searchParams] = useSearchParams();
+  
+  const [currentPage, setCurrentPage] = useState(
+    searchParams.get("page") 
+    ? parseInt(searchParams.get("page")!) 
+    : 1
+  );
+  const [totalPages, setTotalPages] = useState(Math.ceil(numberOfResults/10));
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(numberOfResults/10));
+  }, [searchResults]);
+
   return (
-    <>
-      <div className="flex flex-col gap-1.5 rounded-sm">
-        {searchResults.map((book, index) => (
-          <BookSearchResultItem key={index} book={book} />
-        ))}
-      </div>
-    </>
+    <div className="flex flex-col gap-1.5 rounded-sm">
+      {searchResults.map((book, index) => (
+        <BookSearchResultItem key={index} book={book} />
+      ))}
+
+      <PageNavigator 
+        currentPage={currentPage} 
+        setCurrentPage={setCurrentPage} 
+        numberOfResults={numberOfResults} 
+        totalPages={totalPages}        
+      />
+    </div>
   );
 }
 
 export default function SearchAuthorCard() {
   const { authorInfo, authorWorksInfo } = useLoaderData();
-  console.log(authorInfo);
-  console.log(authorWorksInfo);
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -75,6 +94,7 @@ export default function SearchAuthorCard() {
   const [loaded, setLoaded] = useState(false);
   const [imgUrl, setImgUrl] = useState(false);
 
+  // TODO: handle this on the server?
   useEffect(() => {
     async function fetchUrl() {
       const url = `https://covers.openlibrary.org/a/id/${authorInfo.photos[0]}-L.jpg?default=false`;
@@ -108,7 +128,7 @@ export default function SearchAuthorCard() {
           )}
 
           <div className="flex flex-col gap-1">
-            <h2 className="text-2xl leading-7 font-semibold text-amber-400 text-shadow-md/75">
+            <h2 className="text-2xl leading-7 font-semibold text-orange-400 text-shadow-md/75">
               {authorInfo.name}
             </h2>
 
@@ -181,7 +201,10 @@ export default function SearchAuthorCard() {
 
       <p className="m-2 text-2xl text-amber-500">Books:</p>
 
-      <BookSearchResultList searchResults={authorWorksInfo.entries} />
+      <BookSearchResultList 
+        searchResults={authorWorksInfo.entries} 
+        numberOfResults={authorWorksInfo.size}
+      />
 
       <AddAuthorDialog
         dialogOpen={dialogOpen}

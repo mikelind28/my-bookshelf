@@ -5,7 +5,17 @@ import { EditionType, WorkInfoType } from '../../../types/types';
 // searches openLibrary for a specific work by key,
 // including its editions.
 export default async function searchWork(req: Request, res: Response) {
+  const pageParam = req.query.page;
+  const page = Number(pageParam);
+
   const workKey = req.params.key;
+
+  let offset = 0;
+
+  if (Number.isInteger(page) && page > 0) {
+    offset = (page - 1) * 10;
+  }
+
   try {
     // fetch work info
     const workInfoResponse = await fetch(`https://openlibrary.org/works/${workKey}.json`, {
@@ -17,7 +27,7 @@ export default async function searchWork(req: Request, res: Response) {
     const workInfo: WorkInfoType = await workInfoResponse.json();
 
     // fetch work's editions
-    const editionsResponse = await fetch(`https://openlibrary.org/works/${workKey}/editions.json`, {
+    const editionsResponse = await fetch(`https://openlibrary.org/works/${workKey}/editions.json?limit=10&offset=${offset}`, {
       headers: { 'Content-Type': 'application/json' },
     });
     if (!editionsResponse.ok) {
@@ -113,6 +123,7 @@ export default async function searchWork(req: Request, res: Response) {
       workInfo: workInfo,
       workInfoAuthors: workInfoAuthors,
       workEditions: workEditionsWithAuthors,
+      numberOfEditions: workEditions.size,
     };
 
     res.json(response);

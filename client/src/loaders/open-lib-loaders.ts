@@ -153,20 +153,34 @@ export async function isbnSearchLoader({ params }: LoaderFunctionArgs) {
   }
 }
 
-export async function workLoader({ params }: LoaderFunctionArgs) {
+export async function workLoader({ request, params }: LoaderFunctionArgs) {
   const workKey = params.key;
 
-  const response = await fetch(`/api/open-library/search/work/${workKey}`);
+  const url = new URL(request.url);
+  const searchParams = url.searchParams;
 
-  const { workInfo, workInfoAuthors, workEditions } = await response.json();
+  const page = searchParams.get("page");
 
-  return { workInfo, workInfoAuthors, workEditions };
+  const response = await fetch(`/api/open-library/search/work/${workKey}?page=${page}`);
+
+  const { workInfo, workInfoAuthors, workEditions, numberOfEditions } = await response.json();
+
+  return { workInfo, workInfoAuthors, workEditions, numberOfEditions };
 }
 
-export async function authorLoader({ params }: LoaderFunctionArgs) {
+export async function authorLoader({ request, params }: LoaderFunctionArgs) {
   const authorKey = params.key;
 
-  const response = await fetch(`/api/open-library/search/author/${authorKey}`);
+  const url = new URL(request.url);
+  const searchParams = url.searchParams;
+
+  const page = searchParams.get("page");
+
+  const response = await fetch(`/api/open-library/search/author/${authorKey}?page=${page}`, {
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
 
   const { authorInfo, authorWorksInfo } = await response.json();
 
