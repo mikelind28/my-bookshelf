@@ -37,6 +37,7 @@ export async function allSearchLoader({ request }: LoaderFunctionArgs) {
         searchTerm: searchTerm,
         searchType: "All",
         searchResults: result.docs,
+        numberOfResults: result.numFound
       };
     } catch (error) {
       console.error("error from bookSearchLoader():", error);

@@ -146,6 +146,7 @@ export default function SearchResults() {
           | WorkSeachPreview[]
           | AuthorSeachPreview[]
           | OpenLibEditionType[];
+        numberOfResults: number;
       }
     | undefined
   >();
@@ -164,19 +165,19 @@ export default function SearchResults() {
         <div className="flex w-full flex-col items-center">
           <p className="mx-3 mt-3 mb-1 leading-5 text-amber-500">
             Searched for "{loaderData.searchTerm}" in {loaderData.searchType}.
-            Found {loaderData.searchResults.length} result
-            {loaderData.searchResults.length > 1 ? "s" : ""}:
+            Found {loaderData.numberOfResults} result
+            {loaderData.numberOfResults > 1 ? "s" : ""}:
           </p>
 
           {loaderData.searchType === "All" && (
             <BookSearchResultList
-              searchResults={loaderData.searchResults as WorkSeachPreview[]}
+              searchResults={loaderData.searchResults as WorkSeachPreview[]} numberOfResults={loaderData.numberOfResults}
             />
           )}
 
           {loaderData.searchType === "Books" && (
             <BookSearchResultList
-              searchResults={loaderData.searchResults as WorkSeachPreview[]}
+              searchResults={loaderData.searchResults as WorkSeachPreview[]} numberOfResults={loaderData.numberOfResults}
             />
           )}
 

@@ -63,16 +63,18 @@ function BookSearchResultItem({ book, index }: { book: WorkSeachPreview, index: 
 
 export default function BookSearchResultList({
   searchResults,
+  numberOfResults
 }: {
   searchResults: WorkSeachPreview[];
+  numberOfResults: number;
 }) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(17935);
+  const [totalPages, setTotalPages] = useState(Math.ceil(numberOfResults/10));
 
   const [searchParams, setSearchParams] = useSearchParams({ page: currentPage.toString() });
 
   useEffect(() => {
-    setTotalPages(searchResults.length/10);
+    setTotalPages(Math.ceil(numberOfResults/10));
   }, [searchResults]);
 
   return (
@@ -81,32 +83,72 @@ export default function BookSearchResultList({
         <BookSearchResultItem key={index} book={book} index={index} />
       ))}
 
-      <div className="flex gap-3 justify-center items-center h-20 w-full max-w-140">
+      <div className="flex gap-3 justify-center items-center h-15 w-full max-w-140">
+        <div className="flex gap-1">
+          <div
+            onClick={() => {
+              if (currentPage > 1) {
+                setCurrentPage(1);
+                setSearchParams((searchParams) => {
+                  searchParams.set("page", "1");
+                  return searchParams;
+                });
+              }
+            }}
+            className={`flex p-1 rounded-md ${currentPage <= 1 ? 'bg-orange-100 text-neutral-500' : 'bg-orange-400 text-orange-950 cursor-pointer'}`}
+          >
+            <IoIosArrowBack className="size-6 shrink-0 -mr-2" />
+            <IoIosArrowBack className="size-6 shrink-0 -ml-2" />
+          </div>
+
         <IoIosArrowBack
           onClick={() => {
-            setCurrentPage(currentPage - 1);
-            setSearchParams((searchParams) => {
-              searchParams.set("page", (currentPage - 1).toString());
-              return searchParams;
-            });
+            if (currentPage > 1) {
+              setCurrentPage(currentPage - 1);
+              setSearchParams((searchParams) => {
+                searchParams.set("page", (currentPage - 1).toString());
+                return searchParams;
+              });
+            }
           }}
-          className="size-8 shrink-0 p-1 bg-orange-200 rounded-md text-orange-950"
-        />
+          className={`size-8 shrink-0 p-1 rounded-md ${currentPage <= 1 ? 'bg-orange-100 text-neutral-500' : 'bg-orange-400 text-orange-950 cursor-pointer'}`}
+          />
+        </div>
 
         <p>
           {`page ${currentPage} of ${totalPages}`}
         </p>
 
-        <IoIosArrowForward
-          onClick={() => {
-            setCurrentPage(currentPage + 1);
-            setSearchParams((searchParams) => {
-              searchParams.set("page", (currentPage + 1).toString());
-              return searchParams;
-            });
-          }}
-          className="size-8 shrink-0 p-1 bg-orange-200 rounded-md text-orange-950"
-        />
+        <div className="flex gap-1">
+          <IoIosArrowForward
+            onClick={() => {
+              if (currentPage < Math.ceil(numberOfResults/10)) {
+                setCurrentPage(currentPage + 1);
+                setSearchParams((searchParams) => {
+                  searchParams.set("page", (currentPage + 1).toString());
+                  return searchParams;
+                });
+              }
+            }}
+            className={`size-8 shrink-0 p-1 rounded-md ${currentPage >= Math.ceil(numberOfResults/10) ? 'bg-orange-100 text-neutral-500' : 'bg-orange-400 text-orange-950 cursor-pointer'}`}
+          />
+
+          <div
+            onClick={() => {
+              if (currentPage < Math.ceil(numberOfResults/10)) {
+                setCurrentPage(Math.ceil(numberOfResults/10));
+                setSearchParams((searchParams) => {
+                  searchParams.set("page", (Math.ceil(numberOfResults/10)).toString());
+                  return searchParams;
+                });
+              }
+            }}
+            className={`flex p-1 rounded-md ${currentPage >= Math.ceil(numberOfResults/10) ? 'bg-orange-100 text-neutral-500' : 'bg-orange-400 text-orange-950 cursor-pointer'}`}
+          >
+            <IoIosArrowForward className="size-6 shrink-0 -mr-2" />
+            <IoIosArrowForward className="size-6 shrink-0 -ml-2" />
+          </div>
+        </div>
       </div>
     </div>
   );

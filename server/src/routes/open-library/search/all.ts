@@ -7,13 +7,11 @@ export default async function searchAll(req: Request, res: Response) {
     const pageParam = req.query.page;
     const page = Number(pageParam);
 
-    console.log('page from server:', pageParam);
 
     let offset = 0;
 
     if (Number.isInteger(page) && page > 0) {
         offset = (page - 1) * 10;
-        console.log('offset', offset);
     }
 
     try {
