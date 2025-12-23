@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { FaBook } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link, useSearchParams } from "react-router";
 import { WorkSeachPreview } from "../../types/types";
+import PageNavigator from "./PageNavigator";
 
 function BookSearchResultItem({ book, index }: { book: WorkSeachPreview, index: number }) {
   const [loaded, setLoaded] = useState(false);
@@ -68,88 +69,25 @@ export default function BookSearchResultList({
   searchResults: WorkSeachPreview[];
   numberOfResults: number;
 }) {
-  const [currentPage, setCurrentPage] = useState(17935);
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(Math.ceil(numberOfResults/10));
-
-  const [searchParams, setSearchParams] = useSearchParams({ page: currentPage.toString() });
 
   useEffect(() => {
     setTotalPages(Math.ceil(numberOfResults/10));
   }, [searchResults]);
 
   return (
-    <div className="m-3 flex flex-col max-w-125 bg-amber-900/95 outline outline-amber-600 divide-y divide-amber-600 drop-shadow-xl/90 rounded-sm">
+    <div className="m-3 flex flex-col min-w-93 max-w-125 bg-amber-900/95 outline outline-amber-600 divide-y divide-amber-600 drop-shadow-xl/90 rounded-sm">
       {searchResults.map((book, index) => (
         <BookSearchResultItem key={index} book={book} index={index} />
       ))}
 
-      <div className="flex gap-3 justify-center items-center h-15 w-full max-w-140">
-        <div className="flex gap-1">
-          <div
-            onClick={() => {
-              if (currentPage > 1) {
-                setCurrentPage(1);
-                setSearchParams((searchParams) => {
-                  searchParams.set("page", "1");
-                  return searchParams;
-                });
-              }
-            }}
-            className={`flex p-1 rounded-md ${currentPage <= 1 ? 'bg-orange-100 text-neutral-500' : 'bg-orange-400 text-orange-950 cursor-pointer'}`}
-          >
-            <IoIosArrowBack className="size-6 shrink-0 -mr-2" />
-            <IoIosArrowBack className="size-6 shrink-0 -ml-2" />
-          </div>
-
-        <IoIosArrowBack
-          onClick={() => {
-            if (currentPage > 1) {
-              setCurrentPage(currentPage - 1);
-              setSearchParams((searchParams) => {
-                searchParams.set("page", (currentPage - 1).toString());
-                return searchParams;
-              });
-            }
-          }}
-          className={`size-8 shrink-0 p-1 rounded-md ${currentPage <= 1 ? 'bg-orange-100 text-neutral-500' : 'bg-orange-400 text-orange-950 cursor-pointer'}`}
-          />
-        </div>
-
-        <p>
-          {`page ${currentPage} of ${totalPages}`}
-        </p>
-
-        <div className="flex gap-1">
-          <IoIosArrowForward
-            onClick={() => {
-              if (currentPage < Math.ceil(numberOfResults/10)) {
-                setCurrentPage(currentPage + 1);
-                setSearchParams((searchParams) => {
-                  searchParams.set("page", (currentPage + 1).toString());
-                  return searchParams;
-                });
-              }
-            }}
-            className={`size-8 shrink-0 p-1 rounded-md ${currentPage >= Math.ceil(numberOfResults/10) ? 'bg-orange-100 text-neutral-500' : 'bg-orange-400 text-orange-950 cursor-pointer'}`}
-          />
-
-          <div
-            onClick={() => {
-              if (currentPage < Math.ceil(numberOfResults/10)) {
-                setCurrentPage(Math.ceil(numberOfResults/10));
-                setSearchParams((searchParams) => {
-                  searchParams.set("page", (Math.ceil(numberOfResults/10)).toString());
-                  return searchParams;
-                });
-              }
-            }}
-            className={`flex p-1 rounded-md ${currentPage >= Math.ceil(numberOfResults/10) ? 'bg-orange-100 text-neutral-500' : 'bg-orange-400 text-orange-950 cursor-pointer'}`}
-          >
-            <IoIosArrowForward className="size-6 shrink-0 -mr-2" />
-            <IoIosArrowForward className="size-6 shrink-0 -ml-2" />
-          </div>
-        </div>
-      </div>
+      <PageNavigator 
+        currentPage={currentPage} 
+        setCurrentPage={setCurrentPage} 
+        numberOfResults={numberOfResults} 
+        totalPages={totalPages} 
+      />
     </div>
   );
 }

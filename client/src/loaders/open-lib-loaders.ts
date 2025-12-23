@@ -40,7 +40,7 @@ export async function allSearchLoader({ request }: LoaderFunctionArgs) {
         numberOfResults: result.numFound
       };
     } catch (error) {
-      console.error("error from bookSearchLoader():", error);
+      console.error("error from allSearchLoader():", error);
     }
   }
 }
@@ -53,10 +53,11 @@ export async function bookSearchLoader({ request }: LoaderFunctionArgs) {
     return redirect("/");
   } else {
     const searchTerm = params.get("q");
+    const page = params.get("page");
 
     try {
       const response = await fetch(
-        `/api/open-library/search/titles?q=${searchTerm}`,
+        `/api/open-library/search/titles?q=${searchTerm}&page=${page}`,
         {
           headers: {
             "Content-type": "application/json",
@@ -76,6 +77,7 @@ export async function bookSearchLoader({ request }: LoaderFunctionArgs) {
         searchTerm: searchTerm,
         searchType: "Books",
         searchResults: result.docs,
+        numberOfResults: result.numFound
       };
     } catch (error) {
       console.error("error from bookSearchLoader():", error);
@@ -91,9 +93,11 @@ export async function authorSearchLoader({ request }: LoaderFunctionArgs) {
     return redirect("/");
   } else {
     const searchTerm = params.get("q");
+    const page = params.get("page");
+
     try {
       const response = await fetch(
-        `/api/open-library/search/authors?q=${searchTerm}`,
+        `/api/open-library/search/authors?q=${searchTerm}&page=${page}`,
         {
           headers: {
             "Content-type": "application/json",
@@ -113,6 +117,7 @@ export async function authorSearchLoader({ request }: LoaderFunctionArgs) {
         searchTerm: searchTerm,
         searchType: "Authors",
         searchResults: result.docs,
+        numberOfResults: result.numFound
       };
     } catch (error) {
       console.error("error from authorSearchLoader():", error);

@@ -177,13 +177,15 @@ export default function SearchResults() {
 
           {loaderData.searchType === "Books" && (
             <BookSearchResultList
-              searchResults={loaderData.searchResults as WorkSeachPreview[]} numberOfResults={loaderData.numberOfResults}
+              searchResults={loaderData.searchResults as WorkSeachPreview[]} 
+              numberOfResults={loaderData.numberOfResults}
             />
           )}
 
           {loaderData.searchType === "Authors" && (
             <AuthorSearchResultList
               searchResults={loaderData.searchResults as AuthorSeachPreview[]}
+              numberOfResults={loaderData.numberOfResults}
             />
           )}
 

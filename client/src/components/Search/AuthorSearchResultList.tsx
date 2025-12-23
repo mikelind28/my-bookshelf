@@ -3,6 +3,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoPerson } from "react-icons/io5";
 import { Link } from "react-router";
 import { AuthorSeachPreview } from "../../types/types";
+import PageNavigator from "./PageNavigator";
 
 function AuthorSearchResultItem({ author, index }: { author: AuthorSeachPreview, index: number }) {
   const [loaded, setLoaded] = useState(false);
@@ -69,14 +70,30 @@ function AuthorSearchResultItem({ author, index }: { author: AuthorSeachPreview,
 
 export default function AuthorSearchResultList({
   searchResults,
+  numberOfResults
 }: {
   searchResults: AuthorSeachPreview[];
+  numberOfResults: number;
 }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(Math.ceil(numberOfResults/10));
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(numberOfResults/10));
+  }, [searchResults]);
+
   return (
-    <div className="m-3 flex flex-col max-w-125 bg-amber-900/95 outline outline-amber-600 divide-y divide-amber-600 drop-shadow-xl/90 rounded-md">
+    <div className="m-3 flex flex-col min-w-93 max-w-125 bg-amber-900/95 outline outline-amber-600 divide-y divide-amber-600 drop-shadow-xl/90 rounded-sm">
       {searchResults.map((author, index) => (
         <AuthorSearchResultItem key={index} author={author} index={index} />
       ))}
+
+      <PageNavigator 
+        currentPage={currentPage} 
+        setCurrentPage={setCurrentPage} 
+        numberOfResults={numberOfResults} 
+        totalPages={totalPages} 
+      />
     </div>
   );
 }

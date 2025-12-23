@@ -124,7 +124,6 @@ export const router = createBrowserRouter([
           {
             path: "/search/authors",
             action: addNewAuthor,
-            element: <Outlet />,
             children: [
               {
                 index: true,

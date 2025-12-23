@@ -7,7 +7,6 @@ export default async function searchAll(req: Request, res: Response) {
     const pageParam = req.query.page;
     const page = Number(pageParam);
 
-
     let offset = 0;
 
     if (Number.isInteger(page) && page > 0) {
