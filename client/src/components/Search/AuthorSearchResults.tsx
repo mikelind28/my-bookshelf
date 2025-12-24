@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoPerson } from "react-icons/io5";
-import { Link } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { AuthorSeachPreview } from "../../types/types";
 import PageNavigator from "./PageNavigator";
 
@@ -68,32 +68,41 @@ function AuthorSearchResultItem({ author, index }: { author: AuthorSeachPreview,
   );
 }
 
-export default function AuthorSearchResultList({
-  searchResults,
-  numberOfResults
-}: {
-  searchResults: AuthorSeachPreview[];
-  numberOfResults: number;
-}) {
+export default function AuthorSearchResults() {
+  let loaderData = useLoaderData<{
+    searchTerm: string;
+    searchType: string;
+    searchResults: AuthorSeachPreview[]
+    numberOfResults: number;
+  }>();
+  
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(Math.ceil(numberOfResults/10));
+  const [totalPages, setTotalPages] = useState(Math.ceil(loaderData.numberOfResults/10));
 
   useEffect(() => {
-    setTotalPages(Math.ceil(numberOfResults/10));
-  }, [searchResults]);
+    setTotalPages(Math.ceil(loaderData.numberOfResults/10));
+  }, [loaderData.searchResults]);
 
   return (
-    <div className="m-3 flex flex-col min-w-93 max-w-125 bg-amber-900/95 outline outline-amber-600 divide-y divide-amber-600 drop-shadow-xl/90 rounded-sm">
-      {searchResults.map((author, index) => (
-        <AuthorSearchResultItem key={index} author={author} index={index} />
-      ))}
+    <div className="flex w-full flex-col items-center">
+      <p className="mx-3 mt-3 mb-1 leading-5 text-amber-500">
+        Searched for "{loaderData.searchTerm}" in {loaderData.searchType}.
+        Found {loaderData.numberOfResults} result
+        {loaderData.numberOfResults > 1 ? "s" : ""}:
+      </p>
 
-      <PageNavigator 
-        currentPage={currentPage} 
-        setCurrentPage={setCurrentPage} 
-        numberOfResults={numberOfResults} 
-        totalPages={totalPages} 
-      />
+      <div className="m-3 flex flex-col min-w-93 max-w-125 bg-amber-900/95 outline outline-amber-600 divide-y divide-amber-600 drop-shadow-xl/90 rounded-sm">
+        {loaderData.searchResults.map((author, index) => (
+          <AuthorSearchResultItem key={index} author={author} index={index} />
+        ))}
+
+        <PageNavigator 
+          currentPage={currentPage} 
+          setCurrentPage={setCurrentPage} 
+          numberOfResults={loaderData.numberOfResults} 
+          totalPages={totalPages} 
+        />
+      </div>
     </div>
   );
 }

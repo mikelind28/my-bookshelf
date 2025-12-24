@@ -146,7 +146,11 @@ export async function isbnSearchLoader({ params }: LoaderFunctionArgs) {
 
       const edition = await response.json();
 
-      return { searchTerm: isbn, searchType: "ISBN", searchResults: [edition] };
+      return { 
+        searchTerm: isbn, 
+        searchType: "ISBN", 
+        searchResult: edition 
+      };
     } catch (error) {
       console.error("error from isbnSearchLoader():", error);
     }

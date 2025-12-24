@@ -21,7 +21,7 @@ function SearchIsbnPreviewItem({
 }) {
   const [loaded, setLoaded] = useState(false);
   const { setSearchTerm } = useContext(SetSearchTermContext);
-  console.log(edition);
+
   return (
     <Link
       to={`/search/isbn/${isbn}`}

@@ -1,6 +1,6 @@
 // react, react-router imports.
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router";
 
 // css (tailwind).
 import "./index.css";
@@ -21,7 +21,7 @@ import ErrorPage from "./pages/ErrorPage.tsx";
 import Home from "./pages/Home.tsx";
 import MyShelfOutlet from "./pages/MyShelfOutlet.tsx";
 import SearchAuthorCard from "./components/Search/SearchAuthorCard.tsx";
-import SearchResults from "./components/Search/SearchResults.tsx";
+// import SearchResults from "./components/Search/SearchResults.tsx";
 import SearchWorkCard from "./components/Search/SearchWorkCard.tsx";
 import WishListOutlet from "./pages/WishListOutlet.tsx";
 
@@ -68,6 +68,9 @@ import {
   searchPreviewAction,
   searchSubmitAction,
 } from "./actions/open-lib-actions.ts";
+import BookSearchResults from "./components/Search/BookSearchResults.tsx";
+import AuthorSearchResults from "./components/Search/AuthorSearchResults.tsx";
+import IsbnSearchResult from "./components/Search/IsbnSearchResult.tsx";
 
 
 export const router = createBrowserRouter([
@@ -94,7 +97,7 @@ export const router = createBrowserRouter([
               {
                 index: true,
                 loader: allSearchLoader,
-                Component: SearchResults,
+                Component: BookSearchResults,
               },
               {
                 path: "/search/all/:key",
@@ -111,7 +114,7 @@ export const router = createBrowserRouter([
               {
                 index: true,
                 loader: bookSearchLoader,
-                Component: SearchResults,
+                Component: BookSearchResults,
               },
               {
                 path: "/search/books/:key",
@@ -128,7 +131,7 @@ export const router = createBrowserRouter([
               {
                 index: true,
                 loader: authorSearchLoader,
-                Component: SearchResults,
+                Component: AuthorSearchResults,
               },
               {
                 path: "/search/authors/:key",
@@ -140,7 +143,7 @@ export const router = createBrowserRouter([
           {
             path: "/search/isbn/:isbn",
             loader: isbnSearchLoader,
-            Component: SearchResults,
+            Component: IsbnSearchResult,
           },
         ],
       },

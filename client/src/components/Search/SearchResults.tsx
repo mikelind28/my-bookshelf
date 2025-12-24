@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Outlet, useLoaderData, useNavigate } from "react-router";
-import EditionCard from "./EditionCard";
-import AuthorSearchResultList from "./AuthorSearchResultList";
-import BookSearchResultList from "./BookSearchResultList";
+import EditionCard from "./IsbnSearchResult";
+import AuthorSearchResultList from "./AuthorSearchResults";
+import BookSearchResultList from "./BookSearchResults";
 import {
   WorkSeachPreview,
   AuthorSeachPreview,
@@ -169,7 +169,7 @@ export default function SearchResults() {
             {loaderData.numberOfResults > 1 ? "s" : ""}:
           </p>
 
-          {loaderData.searchType === "All" && (
+          {/* {loaderData.searchType === "All" && (
             <BookSearchResultList
               searchResults={loaderData.searchResults as WorkSeachPreview[]} numberOfResults={loaderData.numberOfResults}
             />
@@ -180,20 +180,20 @@ export default function SearchResults() {
               searchResults={loaderData.searchResults as WorkSeachPreview[]} 
               numberOfResults={loaderData.numberOfResults}
             />
-          )}
+          )} */}
 
-          {loaderData.searchType === "Authors" && (
+          {/* {loaderData.searchType === "Authors" && (
             <AuthorSearchResultList
               searchResults={loaderData.searchResults as AuthorSeachPreview[]}
               numberOfResults={loaderData.numberOfResults}
             />
-          )}
+          )} */}
 
-          {loaderData.searchType === "ISBN" && (
+          {/* {loaderData.searchType === "ISBN" && (
             <EditionCard
               edition={loaderData.searchResults[0] as OpenLibEditionType}
             />
-          )}
+          )} */}
         </div>
       )}
 

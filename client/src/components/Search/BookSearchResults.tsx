@@ -1,7 +1,7 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBook } from "react-icons/fa";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Link, useSearchParams } from "react-router";
+import { IoIosArrowForward } from "react-icons/io";
+import { Link, useLoaderData, useSearchParams } from "react-router";
 import { WorkSeachPreview } from "../../types/types";
 import PageNavigator from "./PageNavigator";
 
@@ -62,13 +62,14 @@ function BookSearchResultItem({ book, index }: { book: WorkSeachPreview, index: 
   );
 }
 
-export default function BookSearchResultList({
-  searchResults,
-  numberOfResults
-}: {
-  searchResults: WorkSeachPreview[];
-  numberOfResults: number;
-}) {
+export default function BookSearchResults() {
+  let loaderData = useLoaderData<{
+    searchTerm: string;
+    searchType: string;
+    searchResults: WorkSeachPreview[]
+    numberOfResults: number;
+  }>();
+
   const [searchParams] = useSearchParams();
 
   const [currentPage, setCurrentPage] = useState(
@@ -76,24 +77,33 @@ export default function BookSearchResultList({
     ? parseInt(searchParams.get("page")!) 
     : 1
   );
-  const [totalPages, setTotalPages] = useState(Math.ceil(numberOfResults/10));
+
+  const [totalPages, setTotalPages] = useState(Math.ceil(loaderData.numberOfResults/10));
 
   useEffect(() => {
-    setTotalPages(Math.ceil(numberOfResults/10));
-  }, [searchResults]);
+    setTotalPages(Math.ceil(loaderData.numberOfResults/10));
+  }, [loaderData.searchResults]);
 
   return (
-    <div className="m-3 flex flex-col min-w-93 max-w-125 bg-amber-900/95 outline outline-amber-600 divide-y divide-amber-600 drop-shadow-xl/90 rounded-sm">
-      {searchResults.map((book, index) => (
-        <BookSearchResultItem key={index} book={book} index={index} />
-      ))}
+    <div className="flex w-full flex-col items-center">
+      <p className="mx-3 mt-3 mb-1 leading-5 text-amber-500">
+        Searched for "{loaderData.searchTerm}" in {loaderData.searchType}.
+        Found {loaderData.numberOfResults} result
+        {loaderData.numberOfResults > 1 ? "s" : ""}:
+      </p>
 
-      <PageNavigator 
-        currentPage={currentPage} 
-        setCurrentPage={setCurrentPage} 
-        numberOfResults={numberOfResults} 
-        totalPages={totalPages} 
-      />
+      <div className="m-3 flex flex-col min-w-93 max-w-125 bg-amber-900/95 outline outline-amber-600 divide-y divide-amber-600 drop-shadow-xl/90 rounded-sm">
+        {loaderData.searchResults.map((book, index) => (
+          <BookSearchResultItem key={index} book={book} index={index} />
+        ))}
+
+        <PageNavigator 
+          currentPage={currentPage} 
+          setCurrentPage={setCurrentPage} 
+          numberOfResults={loaderData.numberOfResults} 
+          totalPages={totalPages} 
+        />
+      </div>
     </div>
   );
 }
