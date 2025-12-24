@@ -44,6 +44,7 @@ export type AuthorSeachPreview = {
   birth_date?: string;
   death_date?: string;
   work_count?: number;
+  imgUrl?: string;
 };
 
 export type WorkInfoType = {

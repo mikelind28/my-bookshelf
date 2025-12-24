@@ -85,7 +85,7 @@ export default function BookSearchResults() {
   }, [loaderData.searchResults]);
 
   return (
-    <div className="flex w-full flex-col items-center">
+    <div className="flex flex-col items-center">
       <p className="mx-3 mt-3 mb-1 leading-5 text-amber-500">
         Searched for "{loaderData.searchTerm}" in {loaderData.searchType}.
         Found {loaderData.numberOfResults} result

@@ -7,24 +7,6 @@ import PageNavigator from "./PageNavigator";
 
 function AuthorSearchResultItem({ author, index }: { author: AuthorSeachPreview, index: number }) {
   const [loaded, setLoaded] = useState(false);
-  const [imgUrl, setImgUrl] = useState(false);
-
-  useEffect(() => {
-    // TODO: handle this on the server instead
-    async function fetchUrl() {
-      const url = `https://covers.openlibrary.org/a/olid/${author.key}-L.jpg?default=false`;
-
-      const res = await fetch(url);
-
-      if (!res.ok) {
-        setImgUrl(false);
-      } else {
-        setImgUrl(true);
-      }
-    }
-
-    fetchUrl();
-  }, []);
 
   return (
     <Link
@@ -32,13 +14,13 @@ function AuthorSearchResultItem({ author, index }: { author: AuthorSeachPreview,
       className="group relative flex items-stretch w-full max-w-140 font-semibold"
     >
       <div className="m-3 flex items-center w-full gap-2">
-        {!loaded && !imgUrl && (
+        {(!loaded || !author.imgUrl) && (
           <IoPerson className="size-15 shrink-0 rounded-md bg-darkbrown/33 py-2 text-orange-800/90 inset-shadow-xs/25" />
         )}
 
-        {imgUrl && (
+        {author.imgUrl && (
           <img
-            src={`https://covers.openlibrary.org/a/olid/${author.key}-L.jpg`}
+            src={author.imgUrl}
             className={`aspect-auto  w-15 rounded-xs drop-shadow-sm/50 ${!loaded ? "hidden" : ""}`}
             onLoad={() => setLoaded(true)}
           />
@@ -84,7 +66,7 @@ export default function AuthorSearchResults() {
   }, [loaderData.searchResults]);
 
   return (
-    <div className="flex w-full flex-col items-center">
+    <div className="flex flex-col items-center">
       <p className="mx-3 mt-3 mb-1 leading-5 text-amber-500">
         Searched for "{loaderData.searchTerm}" in {loaderData.searchType}.
         Found {loaderData.numberOfResults} result

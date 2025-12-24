@@ -1,7 +1,6 @@
 import {
   useState,
   useContext,
-  useEffect,
   Dispatch,
   SetStateAction,
 } from "react";
@@ -14,26 +13,8 @@ import SearchPreviewList from "./SearchPreviewList";
 
 function SearchAuthorPreviewItem({ author, index }: { author: AuthorSeachPreview, index: number }) {
   const [loaded, setLoaded] = useState(false);
-  const [imgUrl, setImgUrl] = useState(false);
 
   const { setSearchTerm } = useContext(SetSearchTermContext);
-
-  // TODO: handle this on the server instead
-  useEffect(() => {
-    async function fetchUrl() {
-      const url = `https://covers.openlibrary.org/a/olid/${author.key}-L.jpg?default=false`;
-
-      const res = await fetch(url);
-
-      if (!res.ok) {
-        setImgUrl(false);
-      } else {
-        setImgUrl(true);
-      }
-    }
-
-    fetchUrl();
-  }, []);
 
   return (
     <Link
@@ -42,11 +23,11 @@ function SearchAuthorPreviewItem({ author, index }: { author: AuthorSeachPreview
       className="group relative flex w-full max-w-140 border-b border-b-amber-500 font-semibold"
     >
       <div className="m-3 flex w-full gap-2">
-        {!loaded && !imgUrl && (
+        {(!loaded || !author.imgUrl) && (
           <IoPerson className="size-20 self-center text-orange-700/90" />
         )}
 
-        {imgUrl && (
+        {author.imgUrl && (
           <img
             src={`https://covers.openlibrary.org/a/olid/${author.key}-L.jpg`}
             className={`aspect-auto max-h-30 w-15 self-center rounded-xs drop-shadow-sm/50 ${!loaded ? "hidden" : ""}`}
