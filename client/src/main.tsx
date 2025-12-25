@@ -72,7 +72,7 @@ import BookSearchResults from "./components/Search/BookSearchResults.tsx";
 import AuthorSearchResults from "./components/Search/AuthorSearchResults.tsx";
 import IsbnSearchResult from "./components/Search/IsbnSearchResult.tsx";
 
-
+// TODO: improve error handling...
 export const router = createBrowserRouter([
   {
     path: "/",

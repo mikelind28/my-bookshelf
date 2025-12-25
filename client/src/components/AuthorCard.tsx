@@ -224,7 +224,21 @@ export default function AuthorCard() {
 
             {currentAuthor.books && (
               <ul>
-                {currentAuthor.books.map((book) => (
+                {currentAuthor.books.sort((a, b) => {
+                  const nameA = a.title?.toUpperCase();
+                  const nameB = b.title?.toUpperCase();
+
+                  if (nameA && nameB) {
+                    if (nameA < nameB) {
+                      return -1;
+                    }
+                    if (nameA > nameB) {
+                      return 1;
+                    }
+                    return 0;
+                  }
+                  return 0;
+                }).map((book) => (
                   <BookListCard key={book.key} book={book} />
                 ))}
               </ul>

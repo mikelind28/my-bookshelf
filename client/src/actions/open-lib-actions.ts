@@ -109,8 +109,6 @@ export async function searchPreviewAction({ request }: { request: Request }) {
   }
 }
 
-// TODO: include 'offset' as a search param so a user can see more than 10 results on search submit
-
 // from the SearchBar component: anytime the search from the search bar is submitted, redirect to the SearchResults page, where a loader will get data from open library
 export async function searchSubmitAction({ request }: { request: Request }) {
   let formData = await request.formData();

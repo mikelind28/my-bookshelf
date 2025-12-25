@@ -283,37 +283,25 @@ export default function BookCard() {
 
             {currentBook.authors && (
               <ul>
-                {currentBook.authors.map((author) => (
+                {currentBook.authors.sort((a, b) => {
+                  const nameA = a.last_name?.toUpperCase();
+                  const nameB = b.last_name?.toUpperCase();
+
+                  if (nameA && nameB) {
+                    if (nameA < nameB) {
+                      return -1;
+                    }
+                    if (nameA > nameB) {
+                      return 1;
+                    }
+                    return 0;
+                  }
+                  return 0;
+                }).map((author) => (
                   <AuthorListCard key={author.key} author={author} />
                 ))}
               </ul>
             )}
-
-            {/* <div className="my-3 flex flex-col gap-1">
-              <div className="flex gap-3">
-                <div className="flex flex-col gap-2 text-orange-500">
-                  {currentBook.authors && (
-                    <div className="leading-5">
-                      Author{currentBook.authors!.length > 1 && "s"}:{" "}
-                      {currentBook.authors.map((author, index) => (
-                        <Link
-                          key={index}
-                          to={`/${pathName}/authors/${author.key.replace("/authors/", "")}`}
-                          className="text-orange-300"
-                        >
-                          {author.name}
-                          {index !== currentBook.authors!.length - 1
-                            ? ", "
-                            : ""}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-
-                  
-                </div>
-              </div>
-            </div> */}
 
             <p className="text-center text-sm text-amber-700/70">
               book key: {currentBook.key}
