@@ -27,7 +27,7 @@ export default async function searchWork(req: Request, res: Response) {
     const workInfo: WorkInfoType = await workInfoResponse.json();
 
     // fetch work's editions
-    const editionsResponse = await fetch(`https://openlibrary.org/works/${workKey}/editions.json?limit=10&offset=${offset}`, {
+    const editionsResponse = await fetch(`https://openlibrary.org/works/${workKey}/editions.json?limit=10&offset=${offset}&sort=new&lang=en`, {
       headers: { 'Content-Type': 'application/json' },
     });
     if (!editionsResponse.ok) {

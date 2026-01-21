@@ -25,7 +25,7 @@ export default async function searchAuthor(req: Request, res: Response) {
 
     const authorInfo = await authorResponse.json();
 
-    const authorWorksResponse = await fetch(`https://openlibrary.org/authors/${authorKey}/works.json?limit=10&offset=${offset}`);
+    const authorWorksResponse = await fetch(`https://openlibrary.org/authors/${authorKey}/works.json?limit=10&offset=${offset}&sort=new&lang=en`);
 
     if (!authorWorksResponse.ok) {
       throw new Error(`Failed fetching authorWorksResponse (${authorKey}): ${authorWorksResponse.status}`);

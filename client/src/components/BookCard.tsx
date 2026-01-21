@@ -22,7 +22,6 @@ import { FaTrashCan } from "react-icons/fa6";
 import BookList from "./Lists/BookList";
 import { AuthorListCard } from "./Lists/AuthorList";
 
-// TODO: sort authors by last_name
 // TODO: instead of useNavigate(), use redirect() in loader/action function, when possible...
 export default function BookCard() {
   const { rows } = useLoaderData<{ rows: EditionType[] }>();
