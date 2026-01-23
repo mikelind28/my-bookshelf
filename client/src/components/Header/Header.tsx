@@ -84,7 +84,7 @@ export default function Header() {
   }, [previewSearchFetcher, searchTerm, searchType, bookSearchResults, authorSearchResults, isbnSearchResult]);
 
   useEffect(() => {
-    previewSearchFetcher.unstable_reset()
+    previewSearchFetcher.reset()
     setPreviewResultsOpen(false);
     setBookSearchResults(undefined);
     setAuthorSearchResults(undefined);
