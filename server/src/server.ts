@@ -17,8 +17,6 @@ app.use(express.urlencoded({ extended: true }));
 //   res.send('Server is running 🚀');
 // });
 
-app.use('/api', routes);
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -29,9 +27,12 @@ if (process.env.NODE_ENV === 'production') {
   const clientPath = path.join(__dirname, "../../client/dist");
   console.log(`Resolved clientPath: ${clientPath}`);
   app.use(express.static(clientPath));
+  app.use('/api', routes);
   app.get("/*path", (_req: Request, res: Response) =>
     res.sendFile(path.join(clientPath, "index.html"))
   );
+} else {
+  app.use(routes);
 }
 
 sequelize.sync({ alter: true }).then(() => {
