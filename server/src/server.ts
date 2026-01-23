@@ -22,11 +22,16 @@ app.use('/', routes);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+console.log('__filename:', __filename);
+console.log('__dirname:', __dirname);
+
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../../client/dist')));
-  app.get('*', (_req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
-  });
+  const clientPath = path.join(__dirname, "../../client/dist");
+  console.log(`Resolved clientPath: ${clientPath}`);
+  app.use(express.static(clientPath));
+  app.get("/*", (_req: Request, res: Response) =>
+    res.sendFile(path.join(clientPath, "index.html"))
+  );
 }
 
 sequelize.sync({ alter: true }).then(() => {
