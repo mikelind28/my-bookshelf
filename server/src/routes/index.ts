@@ -9,10 +9,10 @@ const __dirname = path.dirname(__filename);
 const router = Router();
 
 // anything that needs to be fetched from the database
-router.use('/api/db', dbRouter);
+router.use('/db', dbRouter);
 
 // anything that needs to be fetched from openLibrary's api
-router.use('/api/open-library', openLibraryRouter);
+router.use('/open-library', openLibraryRouter);
 
 // serve up react front-end in production
 router.use((_req: Request, res: Response) => {
