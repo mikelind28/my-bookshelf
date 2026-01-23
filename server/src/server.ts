@@ -17,8 +17,6 @@ app.use(express.urlencoded({ extended: true }));
 //   res.send('Server is running 🚀');
 // });
 
-app.use('/', routes);
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -33,6 +31,8 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(clientPath, "index.html"))
   );
 }
+
+app.use('/api', routes);
 
 sequelize.sync({ alter: true }).then(() => {
   app.listen(PORT, () => {
