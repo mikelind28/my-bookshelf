@@ -1,6 +1,6 @@
 import { Model, InferAttributes, InferCreationAttributes, BelongsToManyAddAssociationMixin, BelongsToManyAddAssociationsMixin, DataTypes, Sequelize, BelongsToManyRemoveAssociationMixin, CreationOptional } from "sequelize";
-import { Author } from './author';
-import { Publisher } from "./publisher";
+import { Author } from './author.js';
+import { Publisher } from "./publisher.js";
 
 export class Book extends Model<
   InferAttributes<Book>, 

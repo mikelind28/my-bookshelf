@@ -6,24 +6,24 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import "./index.css";
 
 // pages and components.
-import App from "./App.tsx";
-import AuthorCard from "./components/AuthorCard.tsx";
-import AuthorList from "./components/Lists/AuthorList.tsx";
-import BookCard from "./components/BookCard.tsx";
-import BookList from "./components/Lists/BookList.tsx";
-import CreateNewAuthorDialog from "./components/CreateNewAuthorDialog.tsx";
-import CreateNewBookDialog from "./components/CreateNewBookDialog.tsx";
-import DeleteAuthorDialog from "./components/DeleteAuthorDialog.tsx";
-import DeleteBookDialog from "./components/DeleteBookDialog.tsx";
-import EditAuthorDialog from "./components/EditAuthorDialog.tsx";
-import EditBookDialog from "./components/EditBookDialog.tsx";
-import ErrorPage from "./pages/ErrorPage.tsx";
-import Home from "./pages/Home.tsx";
-import MyShelfOutlet from "./pages/MyShelfOutlet.tsx";
-import SearchAuthorCard from "./components/Search/SearchAuthorCard.tsx";
-// import SearchResults from "./components/Search/SearchResults.tsx";
-import SearchWorkCard from "./components/Search/SearchWorkCard.tsx";
-import WishListOutlet from "./pages/WishListOutlet.tsx";
+import App from "./App";
+import AuthorCard from "./components/AuthorCard";
+import AuthorList from "./components/Lists/AuthorList";
+import BookCard from "./components/BookCard";
+import BookList from "./components/Lists/BookList";
+import CreateNewAuthorDialog from "./components/CreateNewAuthorDialog";
+import CreateNewBookDialog from "./components/CreateNewBookDialog";
+import DeleteAuthorDialog from "./components/DeleteAuthorDialog";
+import DeleteBookDialog from "./components/DeleteBookDialog";
+import EditAuthorDialog from "./components/EditAuthorDialog";
+import EditBookDialog from "./components/EditBookDialog";
+import ErrorPage from "./pages/ErrorPage";
+import Home from "./pages/Home";
+import MyShelfOutlet from "./pages/MyShelfOutlet";
+import SearchAuthorCard from "./components/Search/SearchAuthorCard";
+// import SearchResults from "./components/Search/SearchResults";
+import SearchWorkCard from "./components/Search/SearchWorkCard";
+import WishListOutlet from "./pages/WishListOutlet";
 
 // route loaders.
 import {
@@ -40,7 +40,7 @@ import {
   homeLoader,
   redirectMyShelf,
   redirectWishList,
-} from "./loaders/db-loaders.ts";
+} from "./loaders/db-loaders";
 
 import {
   allSearchLoader,
@@ -50,7 +50,7 @@ import {
   isbnSearchLoader,
   redirectSearch,
   workLoader,
-} from "./loaders/open-lib-loaders.ts";
+} from "./loaders/open-lib-loaders";
 
 // route actions.
 import {
@@ -62,15 +62,15 @@ import {
   deleteBook,
   editAuthorAction,
   editBookAction,
-} from "./actions/db-actions.ts";
+} from "./actions/db-actions";
 
 import {
   searchPreviewAction,
   searchSubmitAction,
-} from "./actions/open-lib-actions.ts";
-import BookSearchResults from "./components/Search/BookSearchResults.tsx";
-import AuthorSearchResults from "./components/Search/AuthorSearchResults.tsx";
-import IsbnSearchResult from "./components/Search/IsbnSearchResult.tsx";
+} from "./actions/open-lib-actions";
+import BookSearchResults from "./components/Search/BookSearchResults";
+import AuthorSearchResults from "./components/Search/AuthorSearchResults";
+import IsbnSearchResult from "./components/Search/IsbnSearchResult";
 
 // TODO: improve error handling...
 export const router = createBrowserRouter([

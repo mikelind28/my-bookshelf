@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { EditionType } from '../../../types/types';
+import { EditionType } from '../../../types/types.js';
 
 // GET at '/api/open-library/search/isbn/:isbn'
 // searches openLibrary by ISBN.

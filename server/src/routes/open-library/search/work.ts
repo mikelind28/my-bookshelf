@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { EditionType, WorkInfoType } from '../../../types/types';
+import { EditionType, WorkInfoType } from '../../../types/types.js';
 
 // GET at /api/open-library/search/work/:key
 // searches openLibrary for a specific work by key,
