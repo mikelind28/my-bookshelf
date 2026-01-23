@@ -13,9 +13,9 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (_req, res) => {
-  res.send('Server is running 🚀');
-});
+// app.get('/', (_req, res) => {
+//   res.send('Server is running 🚀');
+// });
 
 app.use('/', routes);
 
