@@ -1,7 +1,9 @@
 import dotenv from 'dotenv';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import routes from './routes/index.js';
 import { sequelize } from './models/index.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
@@ -15,16 +17,14 @@ app.get('/', (_req, res) => {
   res.send('Server is running 🚀');
 });
 
-app.use(routes);
+app.use('/', routes);
 
-import path from 'path';
-import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../../client/dist')));
-  app.get('*', (_req, res) => {
+  app.get('*', (_req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
   });
 }
