@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import { FaBook, FaExternalLinkAlt } from "react-icons/fa";
 import { Author, OpenLibEditionType, WorkInfoType } from "../../types/types";
