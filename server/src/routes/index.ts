@@ -15,8 +15,10 @@ router.use('/db', dbRouter);
 router.use('/open-library', openLibraryRouter);
 
 // serve up react front-end in production
-router.use((_req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, '../../client/build/index.html'));
-});
+if (process.env.NODE_ENV === 'production') {
+  router.use((_req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, '../../client/build/index.html'));
+  });
+}
 
 export default router;

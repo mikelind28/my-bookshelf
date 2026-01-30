@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(clientPath, "index.html"))
   );
 } else {
-  app.use(routes);
+  app.use('/api', routes);
 }
 
 sequelize.sync({ alter: true }).then(() => {

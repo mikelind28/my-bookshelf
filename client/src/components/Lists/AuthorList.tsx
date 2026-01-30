@@ -23,7 +23,7 @@ export function AuthorListCard({ author }: { author: Author }) {
   }, [location]);
 
   return (
-    <li className="min-w-93">
+    <li className="w-full">
       <NavLink to={`/${pathName}${author.key}${searchParams.toString()}`}>
         {({ isActive }) => (
           <div
