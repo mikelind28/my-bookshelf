@@ -101,7 +101,7 @@ export default function AuthorCard() {
 
   return (
     <div className="flex w-full gap-3">
-      <div className="hidden sm:block sm:w-80">
+      <div className="hidden sm:block sm:w-80 sm:h-dvh sm:overflow-scroll">
         <AuthorList />
       </div>
 

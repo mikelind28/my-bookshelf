@@ -51,7 +51,7 @@ export default function BooksOrAuthorsSlider() {
       {!location.pathname.includes("/delete") &&
         !location.pathname.includes("/edit") &&
         !location.pathname.includes("/add-new") && (
-          <div className="relative mb-1 flex h-10 rounded-md bg-amber-700/95 px-1 py-1 shadow-sm/25 md:max-w-120">
+          <div className="relative w-full mb-1 mx-auto flex h-10 rounded-md bg-amber-700/95 px-1 py-1 shadow-sm/25">
             <div
               className={`absolute h-[85%] w-1/2 self-center rounded-md bg-orange-100/33 shadow-xs/25 transition-all duration-500 ${
                 location.pathname.includes("/books")

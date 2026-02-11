@@ -52,7 +52,7 @@ export function AuthorListCard({ author }: { author: Author }) {
                 className={`text-lg font-bold text-shadow-xs/90 sm:leading-6 ${
                   isActive
                     ? "text-orange-50 text-shadow-amber-950 text-shadow-xs"
-                    : "text-amber-400"
+                    : "text-amber-500"
                 }`}
               >
                 {author.name}
@@ -77,19 +77,21 @@ export default function AuthorList() {
   const { rows }: { rows: Author[] } = useLoaderData();
 
   return (
-    <nav className="relative w-full">
-      <p className="mb-1 font-bold">
-        {rows.length} author{rows.length > 1 && "s"} found:
-      </p>
-      <ul className="text-lg sm:h-[calc(100%-(--spacing(45)))] sm:overflow-y-auto">
-        {rows.length > 0 ? (
-          rows.map((author) => (
-            <AuthorListCard key={author.key} author={author} />
-          ))
-        ) : (
-          <p className="m-2">No authors found.</p>
-        )}
-      </ul>
-    </nav>
+    <div className="w-full max-w-160 mx-auto">
+      <nav className="relative w-full">
+        <p className="mb-1 font-bold">
+          {rows.length} author{rows.length > 1 && "s"} found:
+        </p>
+        <ul className="text-lg sm:h-[calc(100%-(--spacing(45)))] sm:overflow-y-auto">
+          {rows.length > 0 ? (
+            rows.map((author) => (
+              <AuthorListCard key={author.key} author={author} />
+            ))
+          ) : (
+            <p className="m-2">No authors found.</p>
+          )}
+        </ul>
+      </nav>
+    </div>
   );
 }

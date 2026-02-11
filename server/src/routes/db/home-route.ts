@@ -10,7 +10,7 @@ export const getShelfAndWishListPreview = async (_req: Request, res: Response) =
     const myShelfPreview = await Book.findAll({
         where: { owned: true },
         include: Author,
-        limit: 10,
+        limit: 7,
         order: [
           ['createdAt', 'DESC'],
         ],
@@ -19,7 +19,7 @@ export const getShelfAndWishListPreview = async (_req: Request, res: Response) =
     const myWishListPreview = await Book.findAll({
         where: { owned: false },
         include: Author,
-        limit: 10,
+        limit: 7,
         order: [
           ['createdAt', 'DESC'],
         ],

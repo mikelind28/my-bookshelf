@@ -21,8 +21,8 @@ export function Header2({
       className="group rounded-t-md hover:bg-amber-950"
     >
       <div className="gradient-underline flex items-center gap-2 p-1 pl-2">
-        <h2 className="text-2xl font-semibold text-orange-400">
-          <span className="bg-linear-to-r from-orange-300 to-amber-600 bg-clip-text font-light text-transparent">
+        <h2 className="text-2xl font-semibold text-orange-400 group-hover:text-amber-500">
+          <span className="bg-linear-to-r from-orange-400 from-40% to-amber-600 bg-clip-text font-light text-transparent group-hover:to-amber-500">
             my
           </span>
           {textContent}
@@ -42,10 +42,10 @@ function EditionPreview({ edition }: { edition: EditionType }) {
   return (
     <Link
       to={`/${edition.owned ? "my-shelf" : "wish-list"}/books/${edition.key?.replace("/books/", "")}`}
-      className="group my-4 flex w-40 shrink-0 flex-col items-center justify-start gap-3 rounded-sm border border-orange-400/33 bg-orange-400/15 p-2 drop-shadow-lg/100"
+      className="group my-4 flex w-40 shrink-0 flex-col items-center justify-start gap-3 rounded-sm border border-orange-400/33 bg-orange-400/15 p-2 drop-shadow-lg/100 hover:bg-orange-400/25"
     >
       {(!loaded || !edition.coverUrl) && (
-        <div className="h-45 w-full rounded-md bg-darkbrown/33 p-4 inset-shadow-xs/25">
+        <div className="h-35 w-full rounded-md bg-darkbrown/33 p-4 inset-shadow-xs/25 xs:h-40 md:h-45">
           <FaBook className="size-full self-center text-orange-800/90 drop-shadow-md/25 transition-all duration-200 group-hover:scale-105 group-hover:drop-shadow-lg/25" />
         </div>
       )}
@@ -53,7 +53,7 @@ function EditionPreview({ edition }: { edition: EditionType }) {
       {edition.coverUrl && (
         <img
           src={edition.coverUrl}
-          className={`aspect-auto h-45 scale-100 rounded-xs drop-shadow-md/25 transition-all duration-200 group-hover:scale-105 group-hover:drop-shadow-lg/25 ${!loaded ? "hidden" : ""}`}
+          className={`aspect-auto h-35 scale-100 rounded-xs drop-shadow-md/25 transition-all duration-200 group-hover:scale-105 group-hover:drop-shadow-lg/25 ${!loaded ? "hidden" : ""} xs:h-40 md:h-45`}
           onLoad={() => setLoaded(true)}
         />
       )}
@@ -84,7 +84,7 @@ export default function Home() {
   }>();
 
   return (
-    <div className="flex w-full flex-col px-4">
+    <main className="flex w-full flex-col px-4">
       <Header2 pathName="/my-shelf/books" textContent="Shelf" />
 
       <div className="flex gap-2 overflow-x-scroll">
@@ -118,6 +118,6 @@ export default function Home() {
           </p>
         </Link>
       </div>
-    </div>
+    </main>
   );
 }

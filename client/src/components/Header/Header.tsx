@@ -92,12 +92,12 @@ export default function Header() {
   }, [searchType]);
 
   return (
-    <header className="relative my-2 flex h-9 w-full max-w-180 items-stretch justify-between gap-2 px-3">
+    <header className="relative my-2 flex h-9 w-full max-w-250 items-stretch justify-between gap-2 px-3">
       <div className="flex h-full items-center rounded-md border border-orange-300/25 bg-amber-700/25 px-2">
         <Logo />
       </div>
 
-      <div className="w-full grow justify-self-end">
+      <div className="w-full max-w-160 grow justify-self-end">
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}

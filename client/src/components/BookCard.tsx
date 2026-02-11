@@ -102,7 +102,7 @@ export default function BookCard() {
 
   return (
     <div className="flex w-full gap-3">
-      <div className="hidden sm:block sm:w-80">
+      <div className="hidden sm:block sm:w-80 sm:h-dvh sm:overflow-scroll">
         <BookList />
       </div>
 
@@ -138,7 +138,7 @@ export default function BookCard() {
         </div>
 
         {currentBook && (
-          <div className="sticky top-0 h-fit w-full max-w-200 rounded-lg border border-orange-400/50 bg-orange-400/10 p-4">
+          <div className="sticky top-4 h-fit w-full max-w-200 rounded-lg border border-orange-400/50 bg-orange-400/10 p-4">
             <div className="mb-4 flex flex-row justify-between">
               <div className="flex flex-row gap-2">
                 {currentBook.owned ? (

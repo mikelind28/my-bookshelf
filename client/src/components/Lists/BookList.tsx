@@ -116,7 +116,7 @@ export default function BookList() {
   const { rows } = useLoaderData<{ rows: EditionType[] }>();
 
   return (
-    <div>
+    <div className="w-full max-w-160 mx-auto">
       <nav className="relative w-full">
         <p className="mx-0 mb-1 font-bold">
           {rows.length} book{(rows.length > 1 || rows.length === 0) && "s"}{" "}

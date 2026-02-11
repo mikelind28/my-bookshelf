@@ -15,7 +15,7 @@ import Header from "./components/Header/Header";
 
 export default function App() {
   return (
-    <div className="flex h-full w-full max-w-screen flex-col items-center bg-darkbrown text-orange-200 inset-shadow-sm/70">
+    <div className="flex h-full w-full max-w-240 mb-4 mx-auto flex-col items-center bg-darkbrown text-orange-200 md:gap-2">
       <Header />
       <Outlet />
     </div>
