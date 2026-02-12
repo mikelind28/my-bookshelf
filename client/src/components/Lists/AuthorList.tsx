@@ -82,7 +82,7 @@ export default function AuthorList() {
         <p className="mb-1 font-bold">
           {rows.length} author{rows.length > 1 && "s"} found:
         </p>
-        <ul className="text-lg sm:h-[calc(100%-(--spacing(45)))] sm:overflow-y-auto">
+        <ul className="text-lg sm:overflow-y-auto">
           {rows.length > 0 ? (
             rows.map((author) => (
               <AuthorListCard key={author.key} author={author} />

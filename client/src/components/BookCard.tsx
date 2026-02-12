@@ -226,7 +226,7 @@ export default function BookCard() {
                 </h2>
 
                 {currentBook.publish_date && (
-                  <p className="leading-5 text-orange-400 text-shadow-sm/50">
+                  <p className="leading-5 text-shadow-sm/50">
                     Published:
                     <span className="text-orange-300">
                       {` ${currentBook.publish_date}`}

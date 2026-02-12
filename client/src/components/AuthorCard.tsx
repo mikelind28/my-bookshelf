@@ -137,7 +137,7 @@ export default function AuthorCard() {
         </div>
 
         {currentAuthor && (
-          <div className="sticky top-0 h-fit w-full max-w-200 rounded-lg border border-orange-400/50 bg-orange-400/10 p-4">
+          <div className="sticky top-4 h-fit w-full max-w-200 rounded-lg border border-orange-400/50 bg-orange-400/10 p-4">
             <div className="flex flex-col gap-3 border-b border-b-orange-600/50 pb-3">
               <div className="flex items-start gap-3">
                 {currentAuthor.image_url && (

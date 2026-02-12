@@ -49,7 +49,7 @@ export default function FilterBooks({
           onClick={() => setFilterPopoverOn(!filterPopoverOn)}
         />
 
-        <p className="text-xl text-amber-400">Filter by:</p>
+        <p className="text-xl text-orange-300">Filter by:</p>
         {/* read toggle and options. */}
         <div className="flex flex-col items-stretch">
           <fieldset className="flex flex-col gap-2">
