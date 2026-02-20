@@ -48,14 +48,18 @@ export default function DeleteAuthorDialog() {
               Are you sure you want to delete this author?
             </DialogTitle>
 
-            <IoClose
+            <button
+              type='button'
               onClick={() =>
                 navigate(
                   `/${pathName}/authors/${author.key.replace("/authors/", "")}`,
                 )
               }
-              className="size-8 shrink-0"
-            />
+            >
+              <IoClose
+                className="size-8 shrink-0"
+              />
+            </button>
           </div>
 
           <hr className="my-2 text-orange-500" />
@@ -76,6 +80,7 @@ export default function DeleteAuthorDialog() {
                     src={author.image_url}
                     className={`h-full w-30 rounded-sm shadow-sm/50 ${!imageLoaded ? "hidden" : ""}`}
                     onLoad={() => setImageLoaded(true)}
+                    alt='image of the author'
                   />
                 )}
               </div>

@@ -26,6 +26,7 @@ function BookSearchResultItem({ book }: { book: AuthorWorkPreview }) {
           src={`https://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`}
           className={`aspect-auto w-15 self-center rounded-sm drop-shadow-sm/50 ${!loaded ? "hidden" : ""}`}
           onLoad={() => setLoaded(true)}
+          alt='image of the book cover'
         />
       )}
 
@@ -190,6 +191,7 @@ export default function SearchAuthorCard() {
         )}
 
         <button
+          type='button'
           onClick={() => {
             setDialogOpen(true);
           }}

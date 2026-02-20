@@ -44,10 +44,15 @@ export default function FilterBooks({
         ref={filterPopoverRef}
         className="absolute top-9 right-0 flex h-fit w-50 flex-col gap-3 rounded-md border border-orange-300 bg-amber-800/98 p-4 text-lg/6 text-orange-200 shadow-md inset-shadow-xs shadow-black/25 inset-shadow-black/25 text-shadow-xs/33"
       >
-        <IoIosCloseCircle
-          className="absolute top-2 right-2 size-8 cursor-pointer hover:text-amber-100 active:text-amber-950/66"
+        <button
+          type='button'
           onClick={() => setFilterPopoverOn(!filterPopoverOn)}
-        />
+          className="absolute top-2 right-2 focus:outline-2 focus:outline-blue-500"
+        >
+          <IoIosCloseCircle
+            className="size-8 cursor-pointer hover:text-amber-100 active:text-amber-950/66"
+          />
+        </button>
 
         <p className="text-xl text-orange-300">Filter by:</p>
         {/* read toggle and options. */}
@@ -59,7 +64,7 @@ export default function FilterBooks({
                 name="all-my-books"
                 id="all-my-books"
                 value="all"
-                className={`mr-1 size-5 cursor-pointer appearance-none rounded-full bg-orange-200 checked:cursor-default checked:bg-orange-900 checked:inset-ring-4 checked:inset-ring-orange-200 checked:outline-1 checked:outline-orange-900`}
+                className={`mr-1 size-5 cursor-pointer appearance-none rounded-full bg-orange-200 checked:cursor-default checked:bg-orange-900 checked:inset-ring-4 checked:inset-ring-orange-200 checked:outline-1 checked:outline-orange-900 focus:outline-2 focus:outline-blue-500`}
                 checked={searchParams.get("read") == undefined}
                 onChange={() => {
                   const newParams = new URLSearchParams(searchParams);
@@ -78,7 +83,7 @@ export default function FilterBooks({
                 name="read"
                 id="read-filter"
                 value="read"
-                className={`mr-1 size-5 cursor-pointer appearance-none rounded-full bg-orange-200 checked:cursor-default checked:bg-orange-900 checked:inset-ring-4 checked:inset-ring-orange-200 checked:outline-1 checked:outline-orange-900`}
+                className={`mr-1 size-5 cursor-pointer appearance-none rounded-full bg-orange-200 checked:cursor-default checked:bg-orange-900 checked:inset-ring-4 checked:inset-ring-orange-200 checked:outline-1 checked:outline-orange-900 focus:outline-2 focus:outline-blue-500`}
                 checked={searchParams.get("read") === "read"}
                 onChange={(e) => {
                   const newParams = new URLSearchParams(searchParams);
@@ -98,10 +103,10 @@ export default function FilterBooks({
             <div className={`flex items-center gap-1`}>
               <input
                 type="radio"
-                name="read"
+                name="not-read"
                 id="not-read-filter"
                 value="not-read"
-                className={`mr-1 size-5 cursor-pointer appearance-none rounded-full bg-orange-200 checked:cursor-default checked:bg-orange-900 checked:inset-ring-4 checked:inset-ring-orange-200 checked:outline-1 checked:outline-orange-900`}
+                className={`mr-1 size-5 cursor-pointer appearance-none rounded-full bg-orange-200 checked:cursor-default checked:bg-orange-900 checked:inset-ring-4 checked:inset-ring-orange-200 checked:outline-1 checked:outline-orange-900 focus:outline-2 focus:outline-blue-500`}
                 checked={searchParams.get("read") === "not-read"}
                 onChange={(e) => {
                   const newParams = new URLSearchParams(searchParams);

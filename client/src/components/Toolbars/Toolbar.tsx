@@ -39,6 +39,7 @@ function PopoverButton({
         <span className="absolute -top-1 -right-1 inline-flex size-3 rounded-full bg-red-500"></span>
       )}
       <button
+        type='button'
         ref={ref}
         className={`h-full cursor-pointer rounded-lg px-4 py-1 ${popoverOn || searchParams.has("read") ? "bg-amber-900/50 inset-shadow-sm inset-shadow-black/25 hover:bg-amber-900/66" : "bg-orange-300/25 hover:bg-amber-900/50 hover:inset-shadow-sm hover:inset-shadow-black/25"}`}
         onClick={() => {

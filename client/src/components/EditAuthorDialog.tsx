@@ -66,14 +66,18 @@ export default function EditAuthorDialog() {
               Edit Author
             </DialogTitle>
 
-            <IoClose
+            <button
+              type='button'
               onClick={() =>
                 navigate(
                   `/${pathName}/authors/${author.key.replace("/authors/", "")}`,
                 )
               }
-              className="size-8 shrink-0 cursor-pointer"
-            />
+            >
+              <IoClose
+                className="size-8 shrink-0 cursor-pointer"
+              />
+            </button>
           </div>
 
           <hr className="my-2" />
@@ -212,14 +216,15 @@ export default function EditAuthorDialog() {
                       className="flex w-fit flex-row flex-wrap items-center gap-1 rounded-xl bg-orange-700/75 py-0 pr-2 pl-3 hover:bg-orange-700/90"
                     >
                       <p>{thisBook.title}</p>
-                      <p
+                      <button
+                        type='button'
                         className="ml-1 cursor-pointer text-2xl text-amber-950/75 hover:text-amber-950"
                         onClick={() => {
                           setBooks(books.filter((b) => b.key !== thisBook.key));
                         }}
                       >
                         🅧
-                      </p>
+                      </button>
                     </div>
                   );
                 })}

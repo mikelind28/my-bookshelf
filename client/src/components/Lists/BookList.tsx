@@ -49,6 +49,7 @@ export function BookListCard({ book }: { book: EditionType }) {
                 src={book.coverUrl}
                 className={`h-full w-20 rounded-sm shadow-sm/50 ${!loaded ? "hidden" : ""} ${location.pathname.includes("/books") && params.key ? "hidden" : ""} `}
                 onLoad={() => setLoaded(true)}
+                alt='image of the book'
               />
             )}
 

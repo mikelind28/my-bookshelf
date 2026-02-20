@@ -23,6 +23,7 @@ function BookSearchResultItem({ book, index }: { book: WorkSeachPreview, index: 
             src={`https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-M.jpg`}
             className={`aspect-auto  w-15 rounded-xs drop-shadow-sm/50 ${!loaded ? "hidden" : ""}`}
             onLoad={() => setLoaded(true)}
+            alt='image of the book cover'
           />
         )}
 
@@ -31,6 +32,7 @@ function BookSearchResultItem({ book, index }: { book: WorkSeachPreview, index: 
             src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
             className={`aspect-auto  w-15 rounded-xs drop-shadow-sm/50 ${!loaded ? "hidden" : ""}`}
             onLoad={() => setLoaded(true)}
+            alt='image of the book cover'
           />
         )}
 

@@ -44,6 +44,7 @@ export function AuthorListCard({ author }: { author: Author }) {
                 src={author.image_url}
                 className={`h-full w-15 rounded-sm shadow-sm/50 ${!imageLoaded ? "hidden" : ""} ${location.pathname.includes("/authors") && params.key ? "hidden" : ""} `}
                 onLoad={() => setImageLoaded(true)}
+                alt='image of the author'
               />
             )}
 

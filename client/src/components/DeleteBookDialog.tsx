@@ -54,14 +54,18 @@ export default function DeleteBookDialog() {
               Are you sure you want to delete this book?
             </DialogTitle>
 
-            <IoClose
+            <button
+              type='button'
               onClick={() =>
                 navigate(
                   `/${pathName}/books/${book.key.replace("/books/", "")}`,
                 )
               }
-              className="size-8 shrink-0"
-            />
+            >
+              <IoClose
+                className="size-8 shrink-0"
+              />
+            </button>
           </div>
 
           <hr className="my-2 text-orange-500" />
@@ -105,6 +109,7 @@ export default function DeleteBookDialog() {
                     src={book.coverUrl}
                     className={`h-full w-30 rounded-sm shadow-sm/50 ${!imageLoaded ? "hidden" : ""}`}
                     onLoad={() => setImageLoaded(true)}
+                    alt='image of the book cover'
                   />
                 )}
               </div>

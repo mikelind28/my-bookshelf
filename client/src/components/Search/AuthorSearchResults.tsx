@@ -23,6 +23,7 @@ function AuthorSearchResultItem({ author, index }: { author: AuthorSeachPreview,
             src={author.imgUrl}
             className={`aspect-auto  w-15 rounded-xs drop-shadow-sm/50 ${!loaded ? "hidden" : ""}`}
             onLoad={() => setLoaded(true)}
+            alt='image of the book cover'
           />
         )}
 

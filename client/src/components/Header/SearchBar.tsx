@@ -38,6 +38,7 @@ function SearchOptions({
       >
         <MenuItem>
           <button
+            type='button'
             onClick={() => {
               setPlaceholderText("Search...");
               setSearchType("all");
@@ -50,6 +51,7 @@ function SearchOptions({
 
         <MenuItem>
           <button
+            type='button'
             onClick={() => {
               setPlaceholderText("Books...");
               setSearchType("books");
@@ -62,6 +64,7 @@ function SearchOptions({
 
         <MenuItem>
           <button
+            type='button'
             onClick={() => {
               setPlaceholderText("Authors...");
               setSearchType("authors");
@@ -74,6 +77,7 @@ function SearchOptions({
 
         <MenuItem>
           <button
+            type='button'
             onClick={() => {
               setPlaceholderText("ISBN...");
               setSearchType("isbn");

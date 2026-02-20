@@ -32,6 +32,7 @@ export default function IsbnSearchResult() {
               src={loaderData.searchResult.coverUrl}
               className={`h-full w-25 rounded-sm drop-shadow-md/50 ${!loaded ? "hidden" : ""}`}
               onLoad={() => setLoaded(true)}
+              alt='image of the book cover'
             />
           )}
           <div className="flex h-full flex-col gap-2">
@@ -119,6 +120,7 @@ export default function IsbnSearchResult() {
 
         <div className="flex flex-col gap-2">
           <button
+            type='button'
             onClick={() => {
               setDialogOpen(true);
             }}

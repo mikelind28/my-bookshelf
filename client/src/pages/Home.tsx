@@ -55,6 +55,7 @@ function EditionPreview({ edition }: { edition: EditionType }) {
           src={edition.coverUrl}
           className={`aspect-auto h-35 scale-100 rounded-xs drop-shadow-md/25 transition-all duration-200 group-hover:scale-105 group-hover:drop-shadow-lg/25 ${!loaded ? "hidden" : ""} xs:h-40 md:h-45`}
           onLoad={() => setLoaded(true)}
+          alt='image of the book edition cover'
         />
       )}
 

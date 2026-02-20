@@ -58,8 +58,8 @@ export default function Header() {
       setIsbnSearchResult(undefined);
     } else {
       if (searchType === 'all') {
-        const bookSearchResults: WorkSeachPreview[] = fetcherData.docs;
-        setBookSearchResults(bookSearchResults);
+        const result: WorkSeachPreview[] = fetcherData.docs;
+        setBookSearchResults(result);
         setPreviewResultsOpen(true);
       }
 

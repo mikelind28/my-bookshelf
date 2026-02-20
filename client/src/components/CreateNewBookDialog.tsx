@@ -84,12 +84,16 @@ export default function CreateNewBookDialog() {
               Create New Book
             </DialogTitle>
 
-            <IoClose
+            <button
+              type='button'
               onClick={() =>
                 navigate(`/${pathName}/books?${searchParams.toString()}`)
               }
-              className="size-8 shrink-0 cursor-pointer"
-            />
+            >
+              <IoClose
+                className="size-8 shrink-0 cursor-pointer"
+              />
+            </button>
           </div>
 
           <hr className="my-2" />
@@ -159,7 +163,8 @@ export default function CreateNewBookDialog() {
                       className="flex w-fit flex-row flex-wrap items-center gap-1 rounded-xl bg-orange-700/75 py-0 pr-2 pl-3 hover:bg-orange-700/90"
                     >
                       <p>{thisAuthor.name}</p>
-                      <p
+                      <button
+                        type='button'
                         className="ml-1 cursor-pointer text-2xl text-amber-950/75 hover:text-amber-950"
                         onClick={() => {
                           setAuthors(
@@ -168,7 +173,7 @@ export default function CreateNewBookDialog() {
                         }}
                       >
                         🅧
-                      </p>
+                      </button>
                     </div>
                   );
                 })}

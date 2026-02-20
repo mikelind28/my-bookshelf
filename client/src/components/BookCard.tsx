@@ -119,21 +119,21 @@ export default function BookCard() {
           </Link>
 
           <div className="flex items-center gap-2">
-            <div onClick={backOneBook}>
+            <button type='button' onClick={backOneBook}>
               <IoIosArrowBack
                 className={`size-6 shrink-0 ${currentIndex === 0 ? "opacity-50" : "cursor-pointer"}`}
               />
-            </div>
+            </button>
 
             <div className="w-16 text-center text-nowrap">
               {currentIndex + 1} of {rows.length}
             </div>
 
-            <div onClick={forwardOneBook}>
+            <button type='button' onClick={forwardOneBook}>
               <IoIosArrowForward
                 className={`size-6 shrink-0 ${currentIndex === rows.length - 1 ? "opacity-50" : "cursor-pointer"}`}
               />
-            </div>
+            </button>
           </div>
         </div>
 
@@ -192,7 +192,7 @@ export default function BookCard() {
                   <MenuItem>
                     <Link
                       to={`/${pathName}/books/${currentBook.key.replace("/books/", "")}/delete`}
-                      className="flex cursor-pointer items-center justify-between rounded-md px-3 py-2 text-lg hover:bg-red-950/25 hover:text-red-500 hover:inset-shadow-xs"
+                      className="flex cursor-pointer items-center justify-between rounded-md px-3 py-2 text-lg hover:bg-red-950/25 hover:text-red-500 hover:inset-shadow-xs data-focus:bg-orange-400/33 data-focus:text-orange-100"
                     >
                       <p>Delete</p>
                       <FaTrashCan />
@@ -213,6 +213,7 @@ export default function BookCard() {
                     src={currentBook.coverUrl}
                     className={`h-full w-30 rounded-sm shadow-sm/50 ${!imageLoaded ? "hidden" : ""}`}
                     onLoad={() => setImageLoaded(true)}
+                    alt='image of the book cover'
                   />
                 )}
               </div>

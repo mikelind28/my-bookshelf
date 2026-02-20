@@ -38,6 +38,7 @@ function SearchIsbnPreviewItem({
             src={`https://covers.openlibrary.org/b/id/${edition.covers[0]}-M.jpg`}
             className={`aspect-auto max-h-30 w-15 self-center rounded-xs drop-shadow-sm/50 ${!loaded ? "hidden" : ""}`}
             onLoad={() => setLoaded(true)}
+            alt='image of the book edition cover'
           />
         )}
 
@@ -59,7 +60,7 @@ function SearchIsbnPreviewItem({
         </div>
       </div>
 
-      <span className={`flex place-items-center self-end right-0 h-full w-8 bg-amber-600 group-hover:bg-amber-500 rounded-tr-sm`}>
+      <span className={`flex items-center w-8 bg-amber-600 group-hover:bg-amber-500 rounded-tr-sm`}>
         <IoIosArrowForward className="size-6 shrink-0 text-darkbrown/80" />
       </span>
     </Link>

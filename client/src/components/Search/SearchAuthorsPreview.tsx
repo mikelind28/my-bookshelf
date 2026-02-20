@@ -32,6 +32,7 @@ function SearchAuthorPreviewItem({ author, index }: { author: AuthorSeachPreview
             src={`https://covers.openlibrary.org/a/olid/${author.key}-L.jpg`}
             className={`aspect-auto max-h-30 w-15 self-center rounded-xs drop-shadow-sm/50 ${!loaded ? "hidden" : ""}`}
             onLoad={() => setLoaded(true)}
+            alt='image of the author'
           />
         )}
 
@@ -60,7 +61,7 @@ function SearchAuthorPreviewItem({ author, index }: { author: AuthorSeachPreview
         </div>
       </div>
 
-      <span className={`flex place-items-center self-end right-0 h-full w-8 bg-amber-600 group-hover:bg-amber-500 ${index === 0 ? 'rounded-tr-sm' : ''}`}>
+      <span className={`flex items-center w-8 bg-amber-600 group-hover:bg-amber-500 ${index === 0 ? 'rounded-tr-sm' : ''}`}>
         <IoIosArrowForward className="size-6 shrink-0 text-darkbrown/80" />
       </span>
     </Link>

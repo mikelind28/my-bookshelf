@@ -26,6 +26,7 @@ function WorksEditionCard({ edition }: { edition: OpenLibEditionType }) {
             src={edition.coverUrl}
             className={`h-full w-25 rounded-sm drop-shadow-md/50 ${!loaded ? "hidden" : ""}`}
             onLoad={() => setLoaded(true)}
+            alt='image of the book edition cover'
           />
         )}
         <div className="flex h-full flex-col gap-2">
@@ -96,6 +97,7 @@ function WorksEditionCard({ edition }: { edition: OpenLibEditionType }) {
 
       <div className="flex flex-col gap-2">
         <button
+          type='button'
           onClick={() => {
             setDialogOpen(true);
           }}
