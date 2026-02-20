@@ -27,11 +27,11 @@ export const SetSearchTermContext = createContext<
     searchType: SearchType;
     setSearchTerm: Dispatch<SetStateAction<string>>
   }
->({searchTerm: "", searchType: "all", setSearchTerm: () => ""});
+>({searchTerm: "", searchType: "books", setSearchTerm: () => ""});
 
 export default function Header() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchType, setSearchType] = useState<SearchType>("all");
+  const [searchType, setSearchType] = useState<SearchType>("books");
   const [previewResultsOpen, setPreviewResultsOpen] = useState(false);
   const [bookSearchResults, setBookSearchResults] = useState<WorkSeachPreview[]>();
   const [authorSearchResults, setAuthorSearchResults] = useState<AuthorSeachPreview[]>();
@@ -57,11 +57,11 @@ export default function Header() {
       setAuthorSearchResults(undefined);
       setIsbnSearchResult(undefined);
     } else {
-      if (searchType === 'all') {
-        const result: WorkSeachPreview[] = fetcherData.docs;
-        setBookSearchResults(result);
-        setPreviewResultsOpen(true);
-      }
+      // if (searchType === 'all') {
+      //   const result: WorkSeachPreview[] = fetcherData.docs;
+      //   setBookSearchResults(result);
+      //   setPreviewResultsOpen(true);
+      // }
 
       if (searchType === 'books') {
         const bookSearchResults: WorkSeachPreview[] = fetcherData.docs;
@@ -115,12 +115,12 @@ export default function Header() {
           setSearchTerm: setSearchTerm
         }}
       >
-        {previewResultsOpen && searchType === "all" && (
+        {/* {previewResultsOpen && searchType === "all" && (
           <SearchBooksPreviewList
             searchResults={bookSearchResults}
             setOpen={setPreviewResultsOpen}
           />
-        )}
+        )} */}
 
         {previewResultsOpen && searchType === "books" && (
           <SearchBooksPreviewList

@@ -7,28 +7,28 @@ export async function searchPreviewAction({ request }: { request: Request }) {
   let searchTerm = formData.get("search-term");
   let searchType = formData.get("search-type");
 
-  if (searchType === "all") {
-    try {
-      const response = await fetch(`/api/open-library/search?q=${searchTerm}`, {
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
+  // if (searchType === "all") {
+  //   try {
+  //     const response = await fetch(`/api/open-library/search?q=${searchTerm}`, {
+  //       headers: {
+  //         "Content-type": "application/json",
+  //       },
+  //     });
 
-      if (!response.ok) {
-        throw new Error(
-          "could not fetch /api/open-library/search, check network tab",
-        );
-      }
+  //     if (!response.ok) {
+  //       throw new Error(
+  //         "could not fetch /api/open-library/search, check network tab",
+  //       );
+  //     }
 
-      const result = await response.json();
+  //     const result = await response.json();
 
-      return result;
-    } catch (error) {
-      console.error("error from searchAction():", error);
-      return undefined;
-    }
-  }
+  //     return result;
+  //   } catch (error) {
+  //     console.error("error from searchAction():", error);
+  //     return undefined;
+  //   }
+  // }
 
   if (searchType === "books") {
     try {
@@ -116,23 +116,23 @@ export async function searchSubmitAction({ request }: { request: Request }) {
   let searchTerm = formData.get("search-term");
   let searchType = formData.get("search-type");
 
-  if (searchType === "all") {
-    try {
-      const params = new URLSearchParams();
+  // if (searchType === "all") {
+  //   try {
+  //     const params = new URLSearchParams();
 
-      if (searchTerm) {
-        params.set("q", searchTerm.toString());
-      }
+  //     if (searchTerm) {
+  //       params.set("q", searchTerm.toString());
+  //     }
 
-      if (searchType) {
-        params.set("type", searchType.toString());
-      }
+  //     if (searchType) {
+  //       params.set("type", searchType.toString());
+  //     }
 
-      return redirect(`/search/all?${params}`);
-    } catch (error) {
-      console.error("error from searchSubmitAction():", error);
-    }
-  }
+  //     return redirect(`/search/all?${params}`);
+  //   } catch (error) {
+  //     console.error("error from searchSubmitAction():", error);
+  //   }
+  // }
 
   if (searchType === "books") {
     try {

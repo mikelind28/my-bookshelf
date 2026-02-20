@@ -19,15 +19,13 @@ function SearchOptions({
         <FaChevronDown className="size-4 shrink-0 text-orange-300/90" />
 
         <p className="hidden xs:block">
-          {searchType === "all"
-            ? "All"
-            : searchType === "authors"
-              ? "Authors"
-              : searchType === "books"
-                ? "Books"
-                : searchType === "isbn"
-                  ? "ISBN"
-                  : null}
+          {searchType === "authors"
+            ? "Authors"
+            : searchType === "books"
+              ? "Books"
+              : searchType === "isbn"
+                ? "ISBN"
+                : null}
         </p>
       </MenuButton>
 
@@ -36,7 +34,7 @@ function SearchOptions({
         anchor={{ to: "bottom start", gap: 8, offset: -5 }}
         className="z-50 w-40 flex flex-col gap-0.5 origin-top-right rounded-lg border border-orange-400/25 bg-amber-800/98 p-1 text-base/6 text-orange-200 shadow-md/25 transition duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0"
       >
-        <MenuItem>
+        {/* <MenuItem>
           <button
             type='button'
             onClick={() => {
@@ -47,7 +45,7 @@ function SearchOptions({
           >
             All
           </button>
-        </MenuItem>
+        </MenuItem> */}
 
         <MenuItem>
           <button
@@ -92,7 +90,7 @@ function SearchOptions({
   );
 }
 
-export type SearchType = "books" | "authors" | "isbn" | "all";
+export type SearchType = "books" | "authors" | "isbn";
 
 type SearchBarType = {
   searchTerm: string;

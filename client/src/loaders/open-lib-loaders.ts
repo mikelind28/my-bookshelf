@@ -8,42 +8,42 @@ export function redirectSearch({ request }: LoaderFunctionArgs) {
   }
 }
 
-export async function allSearchLoader({ request }: LoaderFunctionArgs) {
-  const url = new URL(request.url);
-  const params = url.searchParams;
+// export async function allSearchLoader({ request }: LoaderFunctionArgs) {
+//   const url = new URL(request.url);
+//   const params = url.searchParams;
 
-  if (params.size === 0) {
-    return redirect("/");
-  } else {
-    const searchTerm = params.get("q");
-    const page = params.get("page");
+//   if (params.size === 0) {
+//     return redirect("/");
+//   } else {
+//     const searchTerm = params.get("q");
+//     const page = params.get("page");
 
-    try {
-      const response = await fetch(`/api/open-library/search?q=${searchTerm}&page=${page}`, {
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
+//     try {
+//       const response = await fetch(`/api/open-library/search?q=${searchTerm}&page=${page}`, {
+//         headers: {
+//           "Content-type": "application/json",
+//         },
+//       });
 
-      if (!response.ok) {
-        throw new Error(
-          "could not fetch /api/open-library/search, check network tab",
-        );
-      }
+//       if (!response.ok) {
+//         throw new Error(
+//           "could not fetch /api/open-library/search, check network tab",
+//         );
+//       }
 
-      const result = await response.json();
+//       const result = await response.json();
 
-      return {
-        searchTerm: searchTerm,
-        searchType: "All",
-        searchResults: result.docs,
-        numberOfResults: result.numFound
-      };
-    } catch (error) {
-      console.error("error from allSearchLoader():", error);
-    }
-  }
-}
+//       return {
+//         searchTerm: searchTerm,
+//         searchType: "All",
+//         searchResults: result.docs,
+//         numberOfResults: result.numFound
+//       };
+//     } catch (error) {
+//       console.error("error from allSearchLoader():", error);
+//     }
+//   }
+// }
 
 export async function bookSearchLoader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);

@@ -43,7 +43,7 @@ import {
 } from "./loaders/db-loaders";
 
 import {
-  allSearchLoader,
+  // allSearchLoader,
   authorLoader,
   authorSearchLoader,
   bookSearchLoader,
@@ -90,23 +90,23 @@ export const router = createBrowserRouter([
         action: searchSubmitAction,
         loader: redirectSearch,
         children: [
-          {
-            path: "/search/all",
-            action: addNewBook,
-            children: [
-              {
-                index: true,
-                loader: allSearchLoader,
-                Component: BookSearchResults,
-              },
-              {
-                path: "/search/all/:key",
-                action: editBookAction,
-                loader: workLoader,
-                Component: SearchWorkCard,
-              },
-            ],
-          },
+          // {
+          //   path: "/search/all",
+          //   action: addNewBook,
+          //   children: [
+          //     {
+          //       index: true,
+          //       loader: allSearchLoader,
+          //       Component: BookSearchResults,
+          //     },
+          //     {
+          //       path: "/search/all/:key",
+          //       action: editBookAction,
+          //       loader: workLoader,
+          //       Component: SearchWorkCard,
+          //     },
+          //   ],
+          // },
           {
             path: "/search/books",
             action: addNewBook,
